@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Анкета в Тропчики</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .alert {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+      padding: 16px;
+      border: 1px solid #c23;
+      border-radius: 4px;
+      background-color: #fdd;
+      color: #c23;
+    }
+
+    .alert-dismiss {
+      position: absolute;
+      top: 10px;
+      right: 24px;
+      opacity: 0.7;
+    }
+  </style>
+  <script>
+    function validateForm(event) {
+      const checkboxes_interests = document.querySelectorAll('.form-check-input.interests');
+      const checkboxes_finds = document.querySelectorAll('.form-check-input.finds');
+      
+      const isInterestChecked = Array.from(checkboxes_interests).some(checkbox => checkbox.checked);
+      const isFindChecked = Array.from(checkboxes_finds).some(checkbox => checkbox.checked);
+  
+      const alertBox = document.createElement('div');
+      alertBox.classList.add('alert');
+      alertBox.textContent = 'Вы заполнили не все поля';
+      
+      if (!isInterestChecked || !isFindChecked) {
+        document.body.appendChild(alertBox);
+        event.preventDefault();
+        event.stopPropagation();
+
+        return false;
+      }
+
+      // setTimeout(function() {
+      //   alertBox.remove();
+      // }, 1000);      
+      
+      return true;
+    }
+  
+    document.addEventListener('DOMContentLoaded', function() {
+      // Находим форму и добавляем обработчик события submit
+      const form = document.querySelector('form');
+      form.addEventListener('submit', validateForm);
+    });
+  </script>
+  
+</head>
+    <!-- <style>
+    body {
+      background-image: url('static/1.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      height: 100vh;
+      margin: 0;
+    }
+  </style> -->
+
+<body>
+  <div class="container mt-5">
+    <h2><b>👾 Стать Тропчиком — это просто!</b></h2>
+    <br>
+    <h5><i>❤️ Ответьте на 14 коротких вопросов. Это нам поможет узнать вас получше!</i></h5>
+    <br>
+    <form method="post">
+      <div class="form-group">
+        <label for="name"><b>Как вас зовут?</b></label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Введите ваше имя" required>
+      </div>
+      <div class="form-group">
+        <label for="age"><b>Сколько вам лет?</b></label>
+        <input type="number" class="form-control" id="age" name="age" placeholder="Введите ваш возраст" required>
+      </div>
+      <div class="form-group">
+        <label for="city"><b>В каком городе вы ищете компанию?</b></label>
+        <input type="text" class="form-control" id="city" name="city" placeholder="Введите ваш город" required>
+      </div>
+      <div class="form-group">
+        <label for="fromWhere"><b>Если вы не местный, то напишите откуда вы. Если местный - напишите это.</b></label>
+        <input type="text" class="form-control" id="fromWhere" name="fromWhere" placeholder="Город, посёлок или область...">
+      </div>
+      <div class="form-group">
+        <label for="about"><b>Расскажите о себе!</b></label>
+        <textarea class="form-control" id="about" rows="3" name="about" placeholder="Чем занимаетесь, чем увлекаетесь..."></textarea required>
+      </div>
+
+      <div class="form-group">
+        <label><b>Вы ищете...</b></label>
+        <div class="form-check">
+          <input class="form-check-input finds" type="checkbox" name="friends" id="friends"  value="Друзей и знакомых">
+          <label class="form-check-label" for="friends">Друзей и знакомых</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input finds" type="checkbox" name="drinkingBuddies" id="drinkingBuddies" value="Собутыльников">
+          <label class="form-check-label" for="drinkingBuddies">Собутыльников</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input finds" type="checkbox" name="oneNight" id="oneNight" value="Секс без обязательств">
+          <label class="form-check-label" for="oneNight">Секс без обязательств</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input finds" type="checkbox" name="romantic" id="romantic" value="Отношения">
+          <label class="form-check-label" for="romantic">Отношения</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input finds" type="checkbox" name="likeMinded" id="likeMinded" value="Общение">
+          <label class="form-check-label" for="likeMinded">Общение</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input finds" type="checkbox" name="alone" id="alone" value="Интересные мероприятия">
+          <label class="form-check-label" for="alone">Интересные мероприятия</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label><b>Как относитесь к алкоголю?</b></label>
+        <select class="form-control" id="drinkingFrequency" name="drinkingFrequency" required>
+          <option>Очень положительно</option>
+          <option>Положительно</option>
+          <option>Нейтрально</option>
+          <option>Негативно</option>
+          <option>Очень негативно</option>
+          <option></option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="interests"><b>Выберите ваши интересы:</b></label>
+        <div class="form-check">
+          <input class="form-check-input interests" type="checkbox" name="music" id="music" value="Музыка">
+          <label class="form-check-label" for="music">Музыка</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input interests" type="checkbox" name="walking" id="walking" value="Прогулки">
+          <label class="form-check-label" for="walking">Прогулки</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input interests" type="checkbox" name="walkingWithAlcohol" id="walkingWithAlcohol" value="Прогулки с алкоголем">
+          <label class="form-check-label" for="walkingWithAlcohol">Прогулки с алкоголем</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input interests" type="checkbox" name="art" id="art" value="Искусство">
+          <label class="form-check-label" for="art">Искусство</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input interests" type="checkbox" name="cozyPlaces" id="cozyPlaces" value="Домашние посиделки">
+          <label class="form-check-label" for="cozyPlaces">Домашние посиделки</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input interests" type="checkbox" name="injections" id="injections" value="Вписки">
+          <label class="form-check-label" for="injections">Вписки</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input interests" type="checkbox" name="boardGames" id="boardGames" value="Настольные игры">
+          <label class="form-check-label" for="boardGames">Настольные игры</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input interests" type="checkbox" name="hookah" id="hookah" value="Кальянная">
+          <label class="form-check-label" for="hookah">Кальянная</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input interests" type="checkbox" name="gaming" id="gaming" value="Гейминг">
+          <label class="form-check-label" for="gaming">Гейминг</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input interests" type="checkbox" name="bar" id="bar" value="Бар">
+          <label class="form-check-label" for="bar">Бар</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input interests" type="checkbox" name="sports" id="sports" value="Спорт">
+          <label class="form-check-label" for="sports">Спорт</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input interests" type="checkbox" name="club" id="club" value="Клуб">
+          <label class="form-check-label" for="club">Клуб</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input interests" type="checkbox" name="hiking" id="hiking" value="Походы">
+          <label class="form-check-label" for="hiking">Походы</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input interests" type="checkbox" name="tea" id="tea" value="Чай">
+          <label class="form-check-label" for="tea">Чай</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input interests" type="checkbox" name="coffee" id="coffee" value="Кофе">
+          <label class="form-check-label" for="coffee">Кофе</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input interests" type="checkbox" name="longTrips" id="longTrips" value="Дальние поездки">
+          <label class="form-check-label" for="longTrips">Дальние поездки</label>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="badThings"><b>Имеете вредные привычки?</b></label>
+        <select class="form-control" id="badThings" name="badThings" required>
+          <option>Алкоголь</option>
+          <option>Никотин</option>
+          <option>Алкоголь и никотин</option>
+          <option>Не имею вредных привычек</option>
+        </select>
+      
+      <div class="form-group">
+        <label><b>Чем вы пользуетесь на постоянной основе?</b></label>
+        <select class="form-control" id="socialMedia" name="socialMedia" required>
+          <option>Vk</option>
+          <option>Telegram</option>
+          <option>И Vk и Telegram</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="link"><b>Приложите ссылку на вашу социальную сеть.</b></label>
+        <input type="text" class="form-control" id="link" name="link" placeholder="Ссылка" required>
+      </div>
+
+      <div class="form-group">
+        <label for="conflictLevel"><b>Оцените свою конфликтность от 1 до 10.</b></label>
+        <input type="number" class="form-control" id="conflictLevel" min="1" max="10" name="conflictLevel" placeholder="Введите число от 1 до 10" required>
+      </div>
+      <div class="form-group">
+        <label><b>Как вы относитесь к тому, чтоб в вашу компанию приходили новенькие люди?</b></label>
+        <select class="form-control" id="newPeopleAttitude" name="newPeopleAttitude" required>
+          <option>Положительно, люблю новые знакомства!</option>
+          <option>Негативно</option>
+          <option>Нейтрально</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
