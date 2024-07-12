@@ -2,13 +2,13 @@ from flask import Flask, render_template, request, redirect
 from telebot import TeleBot, types
 from database import Database
 
-db = Database('db.db')
 bot = TeleBot('7058890607:AAGOXcU75-LUn207UjiJvXWpoehcMpEBR-w')
 
 app = Flask(__name__)
 
 
 def add_user(user_id):
+    db = Database('db.db')
     with open('users.txt') as file:
         users = file.read().split()
 
@@ -16,9 +16,14 @@ def add_user(user_id):
 
     db.new_write(table=users, data={'id': users})
 
+    del db
+
 
 def can_send(user_id):
+    db = Database('db.db')
     users_id =[user['id'] for user in db.get_data(table='users')]
+
+    del db
 
     return user_id not in users_id
 
