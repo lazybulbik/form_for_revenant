@@ -14,7 +14,7 @@ def add_user(user_id):
 
     users.append(str(user_id))
 
-    db.new_write(table=users, data={'id': users})
+    db.new_write(table='users', data={'id': users})
 
     del db
 
