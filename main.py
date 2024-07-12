@@ -75,7 +75,7 @@ def send_message(user_id, text):
 
     kb = types.InlineKeyboardMarkup().row(btn_1, btn_2)
 
-    bot.send_message(-1001857676206, text, parse_mode='Markdown', reply_markup=kb)
+    bot.send_message(-1002165833102, text, parse_mode='Markdown', reply_markup=kb)
     bot.send_message(user_id, '✅ Ваша заявка отправлена на рассмотрение')
 
 
