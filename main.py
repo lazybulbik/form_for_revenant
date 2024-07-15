@@ -133,5 +133,10 @@ def events(event_id):
     return render_template('event.html', plan=plan, date=date, ready=ready, maybe=maybe, no=no, event_id=event_id, is_expired=is_expired)
 
 
+@app.route('/test')
+def test():
+    return render_template('test.html')
+
+
 if __name__ == '__main__':
     app.run()
