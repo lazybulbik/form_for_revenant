@@ -10,3 +10,5 @@ function chec_sub() {
 }
 
 tg.MainButton.render();
+
+chec_sub();
