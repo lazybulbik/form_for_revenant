@@ -15,10 +15,12 @@ function chec_sub() {
 }
 
 let field = document.getElementById('input');
+let field_2 = document.getElementById('output');
 
 try {
     var tg_data = tg.initDataUnsafe;
     field.value = tg_data;
+    field_2.value = 'ok';
     
 } catch (error) {
 
