@@ -8,3 +8,5 @@ function chec_sub() {
         }
     });
 }
+
+tg.MainButton.render();
