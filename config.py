@@ -1,0 +1,2 @@
+db_url = 'http://127.0.0.1:5000'
+bot_token = '5694054533:AAGVrj58icZPu0L0_3XEVwa3pP1tLO1TGkU' # 7058890607:AAGOXcU75-LUn207UjiJvXWpoehcMpEBR-w

@@ -1,0 +1,107 @@
+body {
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 12px;
+
+    background-image: url('4.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
+    margin: 0;    
+  }
+
+* {
+    box-sizing: border-box;
+}
+
+.alert {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    padding: 16px;
+    border: 1px solid #c23;
+    border-radius: 4px;
+    background-color: #fdd;
+    color: #c23;
+}
+
+.alert-dismiss {
+    position: absolute;
+    top: 10px;
+    right: 24px;
+    opacity: 0.7;
+}
+
+.form-control {
+    background-color: black;
+    opacity: 0.35;
+    font-size: 12px;
+}
+
+.tech_container {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Press Start 2P', sans-serif;
+    font-size: 12px;    
+}
+
+.header {
+    width: 100%;
+    padding-top: 30px;
+    position: absolute;
+}
+
+.event_info {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+}
+
+.crossmark {
+    font-size: 5rem;
+    color: red;
+}
+.message {
+    font-size: 1.5rem;
+    margin-top: 20px;
+    color: #333;
+}
+
+.checkmark {
+    font-size: 5rem;
+    color: green;
+}
+
+.users_info {
+    padding-left: 28%;
+    padding-top: 3%;
+    font-size: 14px;
+}
+
+.btns_group {
+    padding-left: 5%;
+    padding-right: 5%;  
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* display: flex; */
+    /* flex-direction: column; */
+
+}
+
+a {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    margin-bottom: 3%;
+}

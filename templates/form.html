@@ -8,83 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Press Start 2P', sans-serif;
-      font-size: 12px;
-    }
-
-    .alert {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 1000;
-      padding: 16px;
-      border: 1px solid #c23;
-      border-radius: 4px;
-      background-color: #fdd;
-      color: #c23;
-    }
-
-    .alert-dismiss {
-      position: absolute;
-      top: 10px;
-      right: 24px;
-      opacity: 0.7;
-    }
-  </style>
-  <script>
-    function validateForm(event) {
-      const checkboxes_interests = document.querySelectorAll('.form-check-input.interests');
-      const checkboxes_finds = document.querySelectorAll('.form-check-input.finds');
-      
-      const isInterestChecked = Array.from(checkboxes_interests).some(checkbox => checkbox.checked);
-      const isFindChecked = Array.from(checkboxes_finds).some(checkbox => checkbox.checked);
-  
-      const alertBox = document.createElement('div');
-      alertBox.classList.add('alert');
-      alertBox.textContent = 'Вы заполнили не все поля';
-      
-      if (!isInterestChecked || !isFindChecked) {
-        document.body.appendChild(alertBox);
-        event.preventDefault();
-        event.stopPropagation();
-
-        return false;
-      }
-
-      // setTimeout(function() {
-      //   alertBox.remove();
-      // }, 1000);      
-      
-      return true;
-    }
-  
-    document.addEventListener('DOMContentLoaded', function() {
-      // Находим форму и добавляем обработчик события submit
-      const form = document.querySelector('form');
-      form.addEventListener('submit', validateForm);
-    });
-  </script>
-  
+  <link rel="stylesheet" href="../static/style.css">
 </head>
-    <style>
-    body {
-      background-image: url('static/4.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      height: 100vh;
-      margin: 0;
-    }
-
-    .form-control {
-      background-color: black;
-      opacity: 0.35;
-      font-size: 12px;
-    }
-  </style>
 
 <body>
   <div class="container mt-5">
@@ -260,5 +185,6 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="../static/scripts/event.js"></script>
 </body>
 </html>

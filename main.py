@@ -1,31 +1,30 @@
 from flask import Flask, render_template, request, redirect
 from telebot import TeleBot, types
-from database import Database
+from database_server import Database
+from config import db_url, bot_token
+import utils
 
-bot = TeleBot('7058890607:AAGOXcU75-LUn207UjiJvXWpoehcMpEBR-w')
+# bot = TeleBot('7058890607:AAGOXcU75-LUn207UjiJvXWpoehcMpEBR-w')
+bot = TeleBot(bot_token)
 
 app = Flask(__name__)
 
 
 def add_user(user_id):
-    db = Database('db.db')
-    with open('users.txt') as file:
-        users = file.read().split()
+    db = Database(db_url)
 
-    users.append(str(user_id))
-
-    db.new_write(table='users', data={'id': user_id})
+    db.update_data(data={'is_form': True}, filters={'id': user_id}, table='users')
 
     del db
 
 
 def can_send(user_id):
-    db = Database('db.db')
-    users_id =[user['id'] for user in db.get_data(table='users')]
+    db = Database(db_url)
+    user_data = db.get_data(table='users', filters={'id': user_id})[0]
 
     del db
 
-    return user_id not in users_id
+    return not bool(user_data['is_form'])
 
 
 def escape_markdown(text):
@@ -79,11 +78,11 @@ def send_message(user_id, text):
 
     kb = types.InlineKeyboardMarkup().row(btn_1, btn_2)
 
-    bot.send_message(-1002165833102, text, parse_mode='Markdown', reply_markup=kb)
+    bot.send_message(5061120370, text, parse_mode='Markdown', reply_markup=kb) # -1002165833102
     bot.send_message(user_id, '✅ Ваша заявка отправлена на рассмотрение')
 
 
-@app.route('/<user_id>', methods=['GET', 'POST'])
+@app.route('/form/<user_id>', methods=['GET', 'POST'])
 def index(user_id):
     if request.method == 'POST':
         form_data = request.form.to_dict()
@@ -110,5 +109,25 @@ def nope():
     return render_template('nope.html')
 
 
+@app.route('/event/<event_id>')
+def events(event_id):
+    db = Database(db_url)
+
+    event_data = db.get_data(table='events', filters={'id': event_id})[0]
+
+    plan = event_data['plan']
+    date = event_data['date']
+    event_tech_data = eval(event_data['data'])
+
+    ready = [db.get_data(table='users', filters={'id': user_id})[0]['name'] for user_id in event_tech_data['ready']]
+    maybe = [db.get_data(table='users', filters={'id': user_id})[0]['name'] for user_id in event_tech_data['maybe']]
+    no = [db.get_data(table='users', filters={'id': user_id})[0]['name'] for user_id in event_tech_data['no']]
+
+    is_expired = utils.is_event_expired(event_id)
+
+    del db
+    return render_template('event.html', plan=plan, date=date, ready=ready, maybe=maybe, no=no, event_id=event_id, is_expired=is_expired)
+
+
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True, port=5050)

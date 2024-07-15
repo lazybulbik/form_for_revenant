@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">    
+    <title>Event</title>
+</head>
+<header>
+    <div class="event_info">
+        <h1>📆 {{ date }} 📆</h1>
+        <h1>👾 {{ plan }} 👾</h1>
+    </div>
+</header>
+<body>
+    <div class="users_info">
+        <h3>✅ Иду</h3>
+        <ul>
+            {% for user in ready %}
+                <li>{{ user }}</li>
+            {% endfor %}
+        </ul>
+        <br>
+        <h3>☑️ Возможно</h3>
+        <ul>
+            {% for user in maybe %}
+                <li>{{ user }}</li>
+            {% endfor %}
+        </ul>
+        <br>
+        <h3>❌ Не иду</h3>
+        <ul>
+            {% for user in no %}
+                <li>{{ user }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <br><br>
+
+    {% if not is_expired %}
+        <div class="btns_group admin">
+            <a href="/event/{{ event_id }}/cancel">🚫 Отменить мероприятие</a>
+            <a href="/event/{{ event_id }}/remind">🔔 Напоминание</a>
+            <a href="/event/{{ event_id }}/kick">🔄 Исключить участников</a>
+            <a href="/event/{{ event_id }}/mailing">💬 Рассылка</a>
+        </div>
+        <div class="btns_group user">
+            <a href="/event/{{ event_id }}/remind">🔔 Напоминание</a>
+        </div>
+    {% else %}
+        <div class="btns_group">
+            <a href="/event/{{ event_id }}/finish">✅ Завершить мероприятие"></a>
+        </div>
+    {% endif %}
+
+    <style>
+        .admin {
+            display: none;
+        }
+        .user {
+            display: none;
+        }
+    </style>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="../static/scripts/event.js"></script>
+</body>
+</html>
