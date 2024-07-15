@@ -110,6 +110,11 @@ def nope():
 
 @app.route('/event/<event_id>')
 def events(event_id):
+
+    print('Cookies:', request.cookies)
+    print('Headers:', request.headers)
+    print('Body:', request.get_data())
+
     db = Database(db_url)
 
     event_data = db.get_data(table='events', filters={'id': event_id})[0]
