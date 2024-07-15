@@ -19,11 +19,11 @@ let field_2 = document.getElementById('output');
 
 try {
     var tg_data = tg.initDataUnsafe;
-    field.value = tg_data;
-    field_2.value = 'ok';
+    document.getElementById('input').value = tg_data;
+    document.getElementById('output').value = 'ok';
     
 } catch (error) {
 
-    field.value = error;
+    document.getElementById('input').value = error;
     
 }
