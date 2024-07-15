@@ -14,5 +14,12 @@ function chec_sub() {
     // });
 }
 
-var tg_data = tg.initDataUnsafe;
-document.write(tg_id);
+try {
+    var tg_data = tg.initDataUnsafe;
+    document.write(tg_id);
+    
+} catch (error) {
+
+    document.write(error);
+    
+}
