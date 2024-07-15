@@ -6,7 +6,7 @@ let field = document.getElementById('input');
 let field_2 = document.getElementById('output');
 
 try {
-    var tg_data = tg.initDataUnsafe;
+    var tg_data = tg.initDataUnsafe.user.id;
     document.getElementById('input').value = tg_data;
     document.getElementById('output').value = 'ok';
     
