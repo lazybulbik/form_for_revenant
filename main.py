@@ -4,7 +4,6 @@ from database_server import Database
 from config import db_url, bot_token
 import utils
 
-# bot = TeleBot('7058890607:AAGOXcU75-LUn207UjiJvXWpoehcMpEBR-w')
 bot = TeleBot(bot_token)
 
 app = Flask(__name__)
@@ -78,7 +77,7 @@ def send_message(user_id, text):
 
     kb = types.InlineKeyboardMarkup().row(btn_1, btn_2)
 
-    bot.send_message(5061120370, text, parse_mode='Markdown', reply_markup=kb) # -1002165833102
+    bot.send_message(-1002165833102, text, parse_mode='Markdown', reply_markup=kb) # -1002165833102
     bot.send_message(user_id, '✅ Ваша заявка отправлена на рассмотрение')
 
 
