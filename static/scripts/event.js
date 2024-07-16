@@ -6,20 +6,21 @@ let user_btns = document.querySelector('.user');
 
 btn_show.addEventListener('click', function() {
     let users_list = document.querySelector('.users_info');
+    let user_columns = document.querySelectorAll('.user_column');
 
     if (users_list.classList.contains('show')) {
+        for (let i = 0; i < user_columns.length; i++) {
+            user_columns[i].style.display = 'none';
+        }
+
         users_list.classList.remove('show');
         btn_show.textContent = '👀 Посмотреть участников';
-        
-        users_list.addEventListener('transitionend', function() {
-            users_list.style.display = 'none';
-        });
     } else {
-        users_list.style.display = 'flex';
-        setTimeout(function() {
-            users_list.classList.add('show');
-            btn_show.textContent = '❌ Скрыть участников';
-        }, 0);
+        for (let i = 0; i < user_columns.length; i++) {
+            user_columns[i].style.display = 'block';
+        }
+        users_list.classList.add('show');
+        btn_show.textContent = '❌ Скрыть участников';
     }
 });
 
