@@ -145,5 +145,22 @@ def test():
     return render_template('test.html')
 
 
+@app.route('/api/is_admin', methods=['POST'])
+def is_admin():
+    data = request.get_json
+
+    user_id = data['user_id']
+    event_id = data['event_id']
+
+    db = Database(db_url)
+
+    is_admin = utils.is_admin(user_id)
+
+    event_data = db.get_data(table='events', filters={'id': event_id})[0]
+
+    del db
+
+    return {'status': is_admin or event_data['creator'] == user_id}
+
 if __name__ == '__main__':
     app.run(debug=True)

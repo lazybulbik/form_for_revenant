@@ -21,21 +21,29 @@ btn_show.addEventListener('click', function() {
     }
 });
 
-
-tg.getMe().then(function(me) {
-  return tg.getChatMember({
-    chat_id: -1002165833102,
-    user_id: me.id
-  });
-}).then(function(chatMember) {
-  if (chatMember.status === 'administrator' || chatMember.status === 'creator' || chatMember.status === 'member') {
-    admin_btns.style.display = 'flex';
-    user_btns.style.display = 'none';
-
-  } else {
-    admin_btns.style.display = 'none';
-    user_btns.style.display = 'flex';
-  }
-}).catch(function(err) {
-  console.log(err);
-});
+fetch('api/is_admin', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        user_id: tg.initDataUnsafe.user.id
+    })
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+    }
+    return response.json();
+})
+.then(data => {
+    console.log(data);
+    if (data.status === true) {
+        admin_btns.style.display = 'block';
+        user_btns.style.display = 'none';
+    }
+    else {
+        admin_btns.style.display = 'none';
+        user_btns.style.display = 'block';
+    }
+})

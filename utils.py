@@ -3,7 +3,11 @@ from database_server import Database
 from config import db_url
 from datetime import datetime, timedelta, timezone
 
+from config import bot_token
+from telebot import TeleBot
+
 db = Database(db_url)
+bot = TeleBot(bot_token)
 
 def get_current_time_ekaterinburg():
     # Временная зона Екатеринбурга (UTC+5)
@@ -30,3 +34,16 @@ def is_event_expired(event_id):
         return True
 
     return False
+
+
+def is_admin(user_id):
+    print('Checking admin', user_id)
+    try:
+        user = bot.get_chat_member(-1002165833102, user_id)
+        print(user)
+        if user.status == 'left' or user.status == 'kicked':
+            return False
+        return True
+    except Exception as e:
+        print(e)
+        return False    
