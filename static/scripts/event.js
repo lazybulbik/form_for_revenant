@@ -19,9 +19,11 @@ btn_show.addEventListener('click', function() {
         users_list.classList.add('show');
         btn_show.textContent = '❌ Скрыть участников';
 
-        for (let i = 0; i < user_columns.length; i++) {
-            user_columns[i].style.display = 'block';
-        }        
+        setTimeout(function() {
+            for (let i = 0; i < user_columns.length; i++) {
+                user_columns[i].style.display = 'none';
+            }
+        }, 1000);   
     }
 });
 
