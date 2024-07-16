@@ -15,6 +15,7 @@ btn_show.addEventListener('click', function() {
 
         users_list.classList.remove('show');
         btn_show.textContent = '👀 Посмотреть участников';
+        return
     } else {
         users_list.classList.add('show');
         btn_show.textContent = '❌ Скрыть участников';
@@ -24,7 +25,8 @@ btn_show.addEventListener('click', function() {
                 user_columns[i].style.display = 'block';
             }
         }, 500);
-            }
+        return
+    }
 });
 
 
