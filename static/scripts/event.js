@@ -11,19 +11,9 @@ btn_show.addEventListener('click', function() {
     if (users_list.classList.contains('show')) {
         users_list.classList.remove('show');
         btn_show.textContent = '👀 Посмотреть участников';
-        
-        setTimeout(function() {
-            for (let i = 0; i < user_columns.length; i++) {
-                user_columns[i].style.display = 'block';
-            }
-        }, 500);
 
         return
     } else {
-        for (let i = 0; i < user_columns.length; i++) {
-            user_columns[i].style.display = 'block';
-        }
-
         users_list.classList.add('show');
         btn_show.textContent = '❌ Скрыть участников';
 

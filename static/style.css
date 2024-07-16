@@ -119,13 +119,14 @@ a {
     flex-wrap: wrap; /* разрешаем перенос строк */
     align-content: space-around; /* равномерное распределение элементов по вертикали */
 
-    max-height: 0;
+    max-height: 100%;
     overflow: hidden;
     transition: max-height 0.5s ease-out; 
 }
 
-.users_info.show {
-    max-height: 100%; /* Достаточно большое значение, чтобы вместить весь список */
+.users_info.hide {
+    max-height: 0 !important; /* устанавливаем 0, но с !important, чтобы перезаписать предыдущее значение */
+    opacity: 0; /* скрываем блок после анимации */
 }
 
 .user_column {
