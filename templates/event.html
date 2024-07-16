@@ -15,43 +15,66 @@
     </div>
 </header>
 <body>
+    <div class="btn_block">
+        <button id="show_users" class="btn">👀 Посмотреть участников</button>
+    </div>
     <div class="users_info">
-        <h3>✅ Иду</h3>
-        <ul>
-            {% for user in ready %}
-                <li>{{ user }}</li>
-            {% endfor %}
-        </ul>
-        <br>
-        <h3>☑️ Возможно</h3>
-        <ul>
-            {% for user in maybe %}
-                <li>{{ user }}</li>
-            {% endfor %}
-        </ul>
-        <br>
-        <h3>❌ Не иду</h3>
-        <ul>
-            {% for user in no %}
-                <li>{{ user }}</li>
-            {% endfor %}
-        </ul>
+        <div class="user_column">
+            <h3>✅ Иду</h3>
+            <br>
+            <ul>
+                {% for user in ready %}
+                    <li>{{ user }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="user_column">
+            <h3>☑️ Возможно</h3>
+            <br>
+            <ul>
+                {% for user in maybe %}
+                    <li>{{ user }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="user_column">
+            <h3>❌ Не иду</h3>
+            <br>
+            <ul>
+                {% for user in no %}
+                    <li>{{ user }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
     <br><br>
-
     {% if not is_expired %}
         <div class="btns_group admin">
-            <a href="/event/{{ event_id }}/cancel">🚫 Отменить мероприятие</a>
-            <a href="/event/{{ event_id }}/remind">🔔 Напоминание</a>
-            <a href="/event/{{ event_id }}/kick">🔄 Исключить участников</a>
-            <a href="/event/{{ event_id }}/mailing">💬 Рассылка</a>
+            <div class="single_block">
+                <a href="/event/{{ event_id }}/remind">🔔 Напоминание</a>
+            </div>
+            <div class="single_block">
+                <a href="/event/{{ event_id }}/mailing">💬 Рассылка</a>
+            </div>
+            <div class="double_block">
+                <div class="left_btn">
+                    <a href="/event/{{ event_id }}/cancel">🚫 Отменить мероприятие</a>
+                </div>
+                <div class="right_btn">
+                    <a href="/event/{{ event_id }}/kick">🔄 Исключить участников</a>
+                </div>
+            </div>
         </div>
         <div class="btns_group user">
-            <a href="/event/{{ event_id }}/remind">🔔 Напоминание</a>
+            <div class="single_block">
+                <a href="/event/{{ event_id }}/remind">🔔 Напоминание</a>
+            </div>
         </div>
     {% else %}
         <div class="btns_group">
-            <a href="/event/{{ event_id }}/finish">✅ Завершить мероприятие"></a>
+            <div class="single_block">
+                <a href="/event/{{ event_id }}/finish">✅ Завершить мероприятие</a>
+            </div>
         </div>
     {% endif %}
 
@@ -59,9 +82,9 @@
         .admin {
             display: none;
         }
-        .user {
+        /* .user {
             display: none;
-        }
+        } */
     </style>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>

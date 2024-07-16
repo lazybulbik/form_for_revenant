@@ -1,21 +1,36 @@
 let tg = window.Telegram.WebApp;
 
+let btn_show = document.getElementById('show_users');
+let admin_btns = document.querySelector('.admin');
+let user_btns = document.querySelector('.user');
+
+btn_show.addEventListener('click', function() {
+    let users_list = document.querySelector('.users_info');
+
+    if (users_list.classList.contains('show')) {
+        users_list.classList.remove('show');
+        btn_show.textContent = '👀 Посмотреть участников';
+    } else {
+        users_list.classList.add('show');
+        btn_show.textContent = '❌ Скрыть участников';
+    }
+});
 
 
-let field = document.getElementById('input');
-let field_2 = document.getElementById('output');
+tg.getMe().then(function(me) {
+  return tg.getChatMember({
+    chat_id: -1002165833102,
+    user_id: me.id
+  });
+}).then(function(chatMember) {
+  if (chatMember.status === 'administrator' || chatMember.status === 'creator' || chatMember.status === 'member') {
+    admin_btns.style.display = 'flex';
+    user_btns.style.display = 'none';
 
-try {
-    var tg_data = tg.initDataUnsafe.user.id;
-    document.getElementById('input').value = tg_data;
-    document.getElementById('output').value = 'ok';
-    
-} catch (error) {
-
-    document.getElementById('input').value = error;
-    
-}
-
-document.getElementById('test').addEventListener('click', function() {
-    document.getElementById('output').value = 'ok';
-})
+  } else {
+    admin_btns.style.display = 'none';
+    user_btns.style.display = 'flex';
+  }
+}).catch(function(err) {
+  console.log(err);
+});

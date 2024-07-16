@@ -13,6 +13,7 @@ body {
 
 * {
     box-sizing: border-box;
+    font-family: 'Press Start 2P', sans-serif;
 }
 
 .alert {
@@ -86,14 +87,11 @@ body {
 }
 
 .btns_group {
-    padding-left: 5%;
-    padding-right: 5%;  
-    justify-content: center;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    text-align: center;
-    /* display: flex; */
-    /* flex-direction: column; */
-
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 a {
@@ -103,5 +101,81 @@ a {
     border-radius: 5px;
     text-decoration: none;
     color: #333;
+}
+
+.users_info {
+    display: flex;
+    justify-content: space-around;
+    padding-left: 10%;
+    padding-right: 10%;
+
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;    
+}
+
+.users_info.show {
+    max-height: 500px; /* Достаточно большое значение, чтобы вместить весь список */
+}
+
+.user_column {
+    flex: 1;
+    margin: 0 10px;
+}
+.user_column ul {
+    list-style: none;
+    padding: 0;
+}
+.user_column li {
+    margin-bottom: 5px;
+}
+.toggle-btn {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+.btn_block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    display: inline-block;
+    background-color: transparent;
+    padding: 10px 20px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
     margin-bottom: 3%;
+    
+}
+
+.single_block {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    margin-bottom: 1px;
+}
+
+.double_block {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    margin-bottom: 1px;
+    width: 100%;
+    text-align: center;
+}
+.left_btn {
+    margin-right: 10px;
+}
+.right_btn {
+    margin-left: 10px;
 }
