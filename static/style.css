@@ -185,8 +185,8 @@ a {
     text-align: center;
 }
 .left_btn {
-    margin-right: 10px;
+    padding-left: 5%;
 }
 .right_btn {
-    margin-left: 10px;
+    padding-right: 5%;
 }
