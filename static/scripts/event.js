@@ -27,7 +27,8 @@ fetch('../api/is_admin', {
         'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-        user_id: tg.initDataUnsafe.user.id
+        user_id: tg.initDataUnsafe.user.id,
+        event_id: document.getElementById('event_id').value
     })
 })
 .then(response => {
