@@ -41,12 +41,12 @@ fetch('../api/is_admin', {
 .then(data => {
     console.log(data);
     if (data.status === true) {
-        admin_btns.style.display = 'block';
+        admin_btns.style.display = 'flex';
         user_btns.style.display = 'none';
     }
     else {
         admin_btns.style.display = 'none';
-        user_btns.style.display = 'block';
+        user_btns.style.display = 'flex';
     }
 })
 
