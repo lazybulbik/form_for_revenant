@@ -16,8 +16,10 @@ btn_show.addEventListener('click', function() {
         });
     } else {
         users_list.style.display = 'flex';
-        users_list.classList.add('show');
-        btn_show.textContent = '❌ Скрыть участников';
+        setTimeout(function() {
+            users_list.classList.add('show');
+            btn_show.textContent = '❌ Скрыть участников';
+        }, 0);
     }
 });
 
