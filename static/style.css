@@ -186,7 +186,9 @@ a {
 }
 .left_btn {
     padding-left: 5%;
+    float: left;
 }
 .right_btn {
     padding-right: 5%;
+    float: right;
 }
