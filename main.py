@@ -4,6 +4,8 @@ from database_server import Database
 from config import db_url, bot_token
 import utils
 
+import time
+
 bot = TeleBot(bot_token)
 
 app = Flask(__name__)
@@ -116,6 +118,7 @@ def nope():
 
 @app.route('/event/<event_id>')
 def events(event_id):
+    anticash = time.time()
     db = Database(db_url)
 
     event_data = db.get_data(table='events', filters={'id': event_id})[0]
@@ -133,7 +136,7 @@ def events(event_id):
     is_expired = utils.is_event_expired(event_id)
 
     del db
-    return render_template('event.html', plan=plan, date=date, ready=ready, maybe=maybe, no=no, event_id=event_id, is_expired=is_expired)
+    return render_template('event.html', plan=plan, date=date, ready=ready, maybe=maybe, no=no, event_id=event_id, is_expired=is_expired, anticash=anticash)
 
 
 @app.route('/test')
