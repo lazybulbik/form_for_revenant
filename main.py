@@ -147,7 +147,7 @@ def test():
 
 @app.route('/api/is_admin', methods=['POST'])
 def is_admin():
-    data = request.get_json
+    data = request.get_json()
 
     user_id = data['user_id']
     event_id = data['event_id']
