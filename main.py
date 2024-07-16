@@ -7,6 +7,7 @@ import utils
 bot = TeleBot(bot_token)
 
 app = Flask(__name__)
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 
 def add_user(user_id):
