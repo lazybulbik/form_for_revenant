@@ -14,6 +14,14 @@
         <h1>📆 {{ date }} 📆</h1>
         <h1>👾 {{ plan }} 👾</h1>
     </div>
+    <div class="tech">
+        <p id="event_id">{{ event_id }}</p>
+    </div>
+    <style>
+        .tech {
+            display: none;
+        }
+    </style>
 </header>
 <body>
     <div class="btn_block">
@@ -75,14 +83,13 @@
             </div>
         </div>
     {% endif %}
-
     <style>
         .admin {
             display: none;
         }
-        /* .user {
+        .user {
             display: none;
-        } */
+        }
     </style>
     <script src="../static/scripts/event.js?{{ anticash }}"></script>
 </body>

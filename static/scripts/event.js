@@ -21,6 +21,7 @@ btn_show.addEventListener('click', function() {
     }
 });
 
+
 fetch('../api/is_admin', {
     method: 'POST',
     headers: {
@@ -28,7 +29,7 @@ fetch('../api/is_admin', {
     },
     body: JSON.stringify({
         user_id: tg.initDataUnsafe.user.id,
-        event_id: document.getElementById('event_id').value
+        event_id: document.getElementById('event_id').textContent
     })
 })
 .then(response => {
@@ -48,3 +49,4 @@ fetch('../api/is_admin', {
         user_btns.style.display = 'block';
     }
 })
+
