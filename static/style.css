@@ -189,8 +189,8 @@ a {
     margin: 0;
 }
 .left_btn {
-    margin-right: 10px;
+    left: 0;
 }
 .right_btn {
-    margin-left: 10px;
+    right: 0;
 }
