@@ -10,7 +10,12 @@ btn_show.addEventListener('click', function() {
     if (users_list.classList.contains('show')) {
         users_list.classList.remove('show');
         btn_show.textContent = '👀 Посмотреть участников';
+        
+        users_list.addEventListener('transitionend', function() {
+            users_list.style.display = 'none';
+        });
     } else {
+        users_list.style.display = 'flex';
         users_list.classList.add('show');
         btn_show.textContent = '❌ Скрыть участников';
     }
