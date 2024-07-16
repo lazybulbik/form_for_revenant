@@ -20,29 +20,26 @@
     </div>
     <div class="users_info">
         <div class="user_column">
-            <h3>✅ Иду</h3>
+            <h3 class="user_title">✅ Идут</h3>
             <br>
             <ul>
                 {% for user in ready %}
-                    <li>{{ user }}</li>
+                    {% if user in maybe %}
+                        <li>    ☑️ {{ user }}</li>
+                    {% else %}
+                        <li>    ✅ {{ user }}</li>
+                    {% endif %}
+                    <br>
                 {% endfor %}
             </ul>
         </div>
         <div class="user_column">
-            <h3>☑️ Возможно</h3>
-            <br>
-            <ul>
-                {% for user in maybe %}
-                    <li>{{ user }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="user_column">
-            <h3>❌ Не иду</h3>
+            <h3 class="user_title">❌ Не идут</h3>
             <br>
             <ul>
                 {% for user in no %}
-                    <li>{{ user }}</li>
+                    <li>    ❌ {{ user }}</li>
+                    <br>
                 {% endfor %}
             </ul>
         </div>

@@ -101,6 +101,7 @@ a {
     border-radius: 5px;
     text-decoration: none;
     color: #333;
+    text-align: center;
 }
 
 .users_info {
@@ -109,9 +110,12 @@ a {
     padding-left: 10%;
     padding-right: 10%;
 
+    flex-wrap: wrap; /* разрешаем перенос строк */
+    align-content: space-around; /* равномерное распределение элементов по вертикали */
+
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease-out;    
+    transition: max-height 0.5s ease-out; 
 }
 
 .users_info.show {
@@ -121,6 +125,10 @@ a {
 .user_column {
     flex: 1;
     margin: 0 10px;
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 15px;
+
 }
 .user_column ul {
     list-style: none;
@@ -128,11 +136,6 @@ a {
 }
 .user_column li {
     margin-bottom: 5px;
-}
-.toggle-btn {
-    cursor: pointer;
-    color: blue;
-    text-decoration: underline;
 }
 
 .btn_block {
