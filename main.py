@@ -9,6 +9,11 @@ bot = TeleBot(bot_token)
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
+@app.after_request
+def add_header(response):
+    response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
+    response.headers['Cache-Control'] = 'public, max-age=0'
+    return response
 
 def add_user(user_id):
     db = Database(db_url)
