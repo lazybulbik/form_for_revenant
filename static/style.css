@@ -176,7 +176,7 @@ a {
 .double_block {
     display: flex;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 10px;
     border-radius: 5px;
     text-decoration: none;
     color: #333;
@@ -185,10 +185,8 @@ a {
     text-align: center;
 }
 .left_btn {
-    padding-left: 5%;
     float: left;
 }
 .right_btn {
-    padding-right: 5%;
     float: right;
 }
