@@ -152,6 +152,8 @@ def is_admin():
     user_id = data['user_id']
     event_id = data['event_id']
 
+    print(user_id, event_id)
+
     db = Database(db_url)
 
     is_admin = utils.is_admin(user_id)
