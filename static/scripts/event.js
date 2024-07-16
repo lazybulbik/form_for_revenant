@@ -21,10 +21,10 @@ btn_show.addEventListener('click', function() {
 
         setTimeout(function() {
             for (let i = 0; i < user_columns.length; i++) {
-                user_columns[i].style.display = 'none';
+                user_columns[i].style.display = 'block';
             }
-        }, 1000);   
-    }
+        }, 500);
+            }
 });
 
 
