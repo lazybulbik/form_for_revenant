@@ -21,7 +21,7 @@ btn_show.addEventListener('click', function() {
     }
 });
 
-fetch('api/is_admin', {
+fetch('../api/is_admin', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
