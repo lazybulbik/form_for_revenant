@@ -188,6 +188,9 @@ a {
     flex: 1;
     margin: 0;
 }
-.double_block > * {
-    margin: 0;
+.left_btn {
+    margin-right: 10px;
+}
+.right_btn {
+    margin-left: 10px;
 }
