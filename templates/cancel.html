@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<header>
+    <a href="/event/{{ event_id }}">Назад</a>
+</header>
+<body>
+    <div class="container">
+        <h1>Отмена мероприятия</h1>
+
+        <h3>Укажите причину отмены</h3>
+        <input type="text" id="reason" placeholder="Причина">
+        <input type="file" id="photo" accept="image/*">
+
+        <button id="send">Отправить</button>
+    </div>
+    <script src="../static/scripts/cancel.js?{{ anticash }}"></script>
+</body>
+</html>

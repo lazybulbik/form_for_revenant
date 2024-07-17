@@ -7,6 +7,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">    
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            background-image: url('event.jpg');
+        }
+    </style>
     <title>Event</title>
 </head>
 <header>
@@ -62,13 +67,11 @@
             <div class="single_block">
                 <a href="/event/{{ event_id }}/mailing">💬 Рассылка</a>
             </div>
-            <div class="double_block">
-                <div class="left_btn">
-                    <a href="/event/{{ event_id }}/cancel">🚫 Отменить мероприятие</a>
-                </div>
-                <div class="right_btn">
-                    <a href="/event/{{ event_id }}/kick">🔄 Удалить участников</a>
-                </div>
+            <div class="single_block">
+                <a href="/event/{{ event_id }}/cancel">🚫 Отменить мероприятие</a>
+            </div>
+            <div class="single_block">
+                <a href="/event/{{ event_id }}/kick">🔄 Удалить участников</a>
             </div>
         </div>
         <div class="btns_group user">

@@ -164,5 +164,10 @@ def is_admin():
 
     return {'status': is_admin or event_data['creator'] == user_id}
 
+
+@app.route('/event/<event_id>/cancel')
+def cancel(event_id):
+    return render_template('cancel.html', event_id=event_id, anticash=time.time())
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5050)

@@ -13,6 +13,7 @@ def get_current_time_ekaterinburg():
     # Временная зона Екатеринбурга (UTC+5)
     return datetime.utcnow() + timedelta(hours=5)
 
+
 def time_difference_in_hours(input_time_str):
     ekaterinburg_now = get_current_time_ekaterinburg()
     
@@ -47,3 +48,15 @@ def is_admin(user_id):
     except Exception as e:
         print(e)
         return False    
+
+
+def is_sub(user_id):
+    try:
+        user = bot.get_chat_member(-1002152346226, user_id)
+        # print(user)
+        if user.status == 'left' or user.status == 'kicked':
+            return False
+        return True
+    except Exception as e:
+        print(e)
+        return False        
