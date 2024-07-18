@@ -70,9 +70,11 @@ def get_event_menu(event_id):
     photo = event['photo']
     text = event['text']
 
+    blacklist = list(map(str, event['blacklist']))
+
     event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
-    go_len = len([user for user in event_data['ready'] if user not in event_data['blacklist']])
-    maybe_len = len([user for user in event_data['maybe'] if user not in event_data['blacklist']])
+    go_len = len([user for user in event_data['ready'] if str(user) not in blacklist])
+    maybe_len = len([user for user in event_data['maybe'] if str(user) not in blacklist])
     no_len = len(event_data['no'])
 
     status_event_type = 'Частное' if event_data['blacklist'] else 'Открытое'
