@@ -120,11 +120,10 @@ def nope():
 @app.route('/event')
 def events_list():
     args = request.args
-    print(args)
-    # if args:
-    #     event_id = args.get('event_id')
+    if args:
+        event_id = args.get('tgWebAppStartParam')
 
-    #     return redirect('/event/' + event_id)
+        return redirect('/event/' + event_id)
 
 
 @app.route('/event/<event_id>')
