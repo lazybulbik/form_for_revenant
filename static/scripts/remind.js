@@ -34,6 +34,11 @@ buttons.forEach(button => {
     })
     .then (response => response.json())
     .then (data => {
-        console.log(data['status'])
+        if (data['status'] == 'add') {
+            button.innerHTML = '✅ ' + button.innerHTML;
+        }
+        else {
+            button.innerHTML = button.innerHTML.slice(0, 2);
+        }
     })
 })});
