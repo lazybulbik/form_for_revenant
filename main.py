@@ -9,7 +9,7 @@ import time
 bot = TeleBot(bot_token)
 
 app = Flask(__name__)
-app.config['TEMPLATES_AUTO_RELOAD'] = True
+# app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 # @app.after_request
 # def disable_caching(response):
