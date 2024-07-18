@@ -78,7 +78,7 @@ def get_event_menu(event_id):
     maybe_len = len([user for user in event_data['maybe'] if str(user) not in blacklist])
     no_len = len(event_data['no'])
 
-    status_event_type = 'Частное' if event_data['blacklist'] else 'Открытое'
+    status_event_type = 'Частное' if len(blacklist) > 0 else 'Открытое'
     text += f'\n🔐 *Тип мероприятия:* {status_event_type}'
 
     btn_1 = types.InlineKeyboardButton(text=f'✅ Иду ({go_len})', callback_data=f'event:choose:ready:{event_id}')

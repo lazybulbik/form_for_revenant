@@ -332,6 +332,9 @@ def mailing(event_id):
         event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
 
         for user in event_data['ready'] + event_data['maybe']:
+            if str(user) in list(map(str, event_data['blacklist'])):
+                continue
+            
             bot.send_message(user, data['message'])
 
             time.sleep(1.5)
