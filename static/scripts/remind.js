@@ -3,8 +3,8 @@ const buttons = document.querySelectorAll('button');
 fetch('/api/users_notify', {
     method: 'POST',
     body: JSON.stringify({
-        'user_id': window.Telegram.WebApp.initDataUnsafe.user.id,
-        'event_id': document.getElementById('event_id').textContent
+        user_id: window.Telegram.WebApp.initDataUnsafe.user.id,
+        event_id: document.getElementById('event_id').textContent
     })
 })
 .then(response => response.json())
@@ -21,9 +21,9 @@ buttons.forEach(button => {
     fetch('/api/set_notify', {
         method: 'POST',
         body: JSON.stringify({
-            'user_id': window.Telegram.WebApp.initDataUnsafe.user.id,
-            'event_id': document.getElementById('event_id').textContent,
-            'notify': button.id
+            user_id: window.Telegram.WebApp.initDataUnsafe.user.id,
+            event_id: document.getElementById('event_id').textContent,
+            notify: button.id
         })
     })
     .then (response => response.json())
