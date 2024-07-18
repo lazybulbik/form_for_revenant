@@ -80,8 +80,7 @@ def get_event_menu(event_id):
     btn_2 = types.InlineKeyboardButton(text=f'☑️ Может быть приду ({maybe_len})',
                                         callback_data=f'event:choose:maybe:{event_id}')
     btn_3 = types.InlineKeyboardButton(text=f'⛔️ Не приду ({no_len})', callback_data=f'event:choose:no:{event_id}')
-    btn_4 = types.InlineKeyboardButton(text='⚙️ Подробнее',
-                                        web_app=types.WebAppInfo(url=f'https://form-for-revenant.vercel.app/event/{event_id}'))
+    btn_4 = types.InlineKeyboardButton(text='⚙️ Подробнее', url=f'https://t.me/Novotropsk_bot/EventSettings?startapp={event_id}')
 
     kb = types.InlineKeyboardMarkup().row(btn_1, btn_2).row(btn_3).row(btn_4)
 
