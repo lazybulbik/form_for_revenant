@@ -1,6 +1,6 @@
-let btn = document.getElementById('send');
-let reason = document.getElementById('reason');
-let photo = document.getElementById('photo');
+document.querySelector('.form-control-file').addEventListener('change', function(e) {
+    let file = e.target.files[0];
+    console.log(file.name);
 
-btn.addEventListener('click', function() {
+    document.querySelector('.input-file-text').innerHTML = file.name;
 })
