@@ -23,6 +23,9 @@ buttons.forEach(button => {
   button.addEventListener('click', () => {
     fetch('/api/set_notify', {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
             user_id: window.Telegram.WebApp.initDataUnsafe.user.id,
             event_id: document.getElementById('event_id').textContent,
