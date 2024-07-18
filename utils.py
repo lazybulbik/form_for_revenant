@@ -81,6 +81,8 @@ def get_event_menu(event_id):
     status_event_type = 'Частное' if len(blacklist) > 0 else 'Открытое'
     text += f'\n🔐 *Тип мероприятия:* {status_event_type}'
 
+    print(status_event_type)
+
     btn_1 = types.InlineKeyboardButton(text=f'✅ Иду ({go_len})', callback_data=f'event:choose:ready:{event_id}')
     btn_2 = types.InlineKeyboardButton(text=f'☑️ Может быть приду ({maybe_len})',
                                         callback_data=f'event:choose:maybe:{event_id}')

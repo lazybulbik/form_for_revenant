@@ -274,10 +274,12 @@ def kick_user():
         photo, text, kb = utils.get_event_menu(event_id)
         try:
             bot.edit_message_text(chat_id=chat_id, text=text, message_id=event_data['message_id'], reply_markup=kb, parse_mode='Markdown')        
-        except:
+        except Exception as e:
+            print(e)
             try:
                 bot.edit_message_caption(chat_id=chat_id, caption=text, message_id=event_data['message_id'], reply_markup=kb, parse_mode='Markdown')
-            except:
+            except Exception as e:
+                print(e)
                 pass
 
         return {'status': 'remove', 'name': user_name}
@@ -287,8 +289,16 @@ def kick_user():
 
         del db
 
-        kb = utils.get_event_menu(event_id)[2]
-        bot.edit_message_reply_markup(chat_id=chat_id, message_id=event_data['message_id'], reply_markup=kb)        
+        photo, text, kb = utils.get_event_menu(event_id)
+        try:
+            bot.edit_message_text(chat_id=chat_id, text=text, message_id=event_data['message_id'], reply_markup=kb, parse_mode='Markdown')        
+        except Exception as e:
+            print(e)
+            try:
+                bot.edit_message_caption(chat_id=chat_id, caption=text, message_id=event_data['message_id'], reply_markup=kb, parse_mode='Markdown')
+            except Exception as e:
+                print(e)
+                pass
 
         return {'status': 'kick', 'name': user_name}
 
