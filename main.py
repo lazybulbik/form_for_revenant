@@ -174,20 +174,77 @@ def cancel(event_id):
         print(data)
 
         event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
+        tech_msg = event_data['message_id']
 
-        cancel_text = f'К сожалению, мероприятие отменен \n\nПричина: {data["reason"]}'
+        btn = types.InlineKeyboardButton(text='⚠️ Мероприятие отменено', callback_data='None')
+        kb = types.InlineKeyboardMarkup().row(btn)
+
+        cancel_text = f'К сожалению, мероприятие отменено. \n\nПричина: {data["reason"]}'
+
+        bot.edit_message_reply_markup(chat_id=-1002165833102, message_id=tech_msg, reply_markup=kb)
 
         for user in event_data['ready'] + event_data['maybe']:
-            bot.send_message(5061120370, cancel_text)
+            photo = types.InputFile('static/1.jpg')
+            bot.send_photo(user, photo=photo, caption=cancel_text)
 
-            break
             time.sleep(1.5)
 
         del db
 
-        return 'ok'
+        return render_template('ok.html', message='Мероприятие отменено')
     else:
         return render_template('cancel.html', event_id=event_id, anticash=time.time())
+
+
+@app.route('/event/<event_id>/mailing', methods=['POST', 'GET'])
+def mailing(event_id):
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        db = Database(db_url)
+
+        print(data)
+
+        event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
+
+        for user in event_data['ready'] + event_data['maybe']:
+            bot.send_message(user, data['message'])
+
+            time.sleep(1.5)
+
+        del db
+
+        return render_template('ok.html', message='Рассылка отправлена')
+    else:
+        return render_template('mailing.html', event_id=event_id, anticash=time.time())
+
+
+@app.route('/event/<event_id>/complete', methods=['POST', 'GET'])
+def complete(event_id):
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        db = Database(db_url)
+
+        print(data)
+
+        event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
+        tech_msg = event_data['message_id']
+
+        btn = types.InlineKeyboardButton(text='✅ Мероприятие завершено', callback_data='None')
+        kb = types.InlineKeyboardMarkup().row(btn)
+
+        if data['link']:
+            btn_1 = types.InlineKeyboardButton(text='📷 Фотографии', url=data['link'])
+            btn_2 = types.InlineKeyboardButton(text='👀 Подписаться на канал с фото', url='https://t.me/+DuBqBtAQVj00YmMy')
+
+            kb.row(btn_1).row(btn_2)
+
+        bot.edit_message_reply_markup(chat_id=-1002165833102, message_id=tech_msg, reply_markup=kb)
+
+        return render_template('ok.html', message='Мероприятие завершено')
+
+    else:
+        return render_template('complete.html', event_id=event_id, anticash=time.time())
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5050)
