@@ -238,7 +238,7 @@ def complete(event_id):
 
             kb.row(btn_1).row(btn_2)
 
-        bot.edit_message_reply_markup(chat_id=-1002165833102, message_id=tech_msg, reply_markup=kb)
+        bot.edit_message_reply_markup(chat_id=5061120370, message_id=tech_msg, reply_markup=kb)
 
         return render_template('ok.html', message='Мероприятие завершено')
 
