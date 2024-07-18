@@ -169,16 +169,16 @@ def is_admin():
 def cancel(event_id):
     if request.method == 'POST':
         data = request.form.to_dict()
-        file = request.files['file']
         db = Database(db_url)
+
+        print(data)
 
         event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
 
+        cancel_text = f'К сожалению, мероприятие отменен \n\nПричина: {data["reason"]}'
+
         for user in event_data['ready'] + event_data['maybe']:
-            if file:
-                bot.send_photo(5061120370, file, caption=data['reason'])
-            else:
-                bot.send_message(5061120370, data['reason'])
+            bot.send_message(5061120370, cancel_text)
 
             break
             time.sleep(1.5)
