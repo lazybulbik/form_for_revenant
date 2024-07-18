@@ -256,11 +256,13 @@ def kick_user():
 
     user_id = data['user_id']
     event_id = data['event_id']
-    chat_id = data['chat_id']
 
     db = Database(db_url)
 
-    event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
+    event = db.get_data(table='events', filters={'id': event_id})[0]
+    event_data = eval(event['data'])
+
+    chat_id = utils.get_chanel_id(event['city'])
 
     kb = utils.get_event_menu(event_id)[2]
     bot.edit_message_reply_markup(chat_id=chat_id, message_id=event_data['message_id'], reply_markup=kb)
@@ -289,7 +291,11 @@ def cancel(event_id):
 
         print(data)
 
-        event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
+        event = db.get_data(table='events', filters={'id': event_id})[0]
+        event_data = eval(event['data'])
+
+        chat_id = utils.get_chanel_id(event['city'])
+
         tech_msg = event_data['message_id']
 
         btn = types.InlineKeyboardButton(text='⚠️ Мероприятие отменено', callback_data='None')
@@ -297,7 +303,7 @@ def cancel(event_id):
 
         cancel_text = f'К сожалению, мероприятие отменено. \n\nПричина: {data["reason"]}'
 
-        bot.edit_message_reply_markup(chat_id=data['chat_id'], message_id=tech_msg, reply_markup=kb)
+        bot.edit_message_reply_markup(chat_id=chat_id, message_id=tech_msg, reply_markup=kb)
 
         for user in event_data['ready'] + event_data['maybe']:
             photo = types.InputFile('static/1.jpg')
@@ -342,8 +348,10 @@ def complete(event_id):
 
         print(data)
 
-        event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
+        event = db.get_data(table='events', filters={'id': event_id})[0]
+        event_data = eval(event['data'])
         tech_msg = event_data['message_id']
+        chat_id = utils.get_chanel_id(event['city'])
 
         btn = types.InlineKeyboardButton(text='✅ Мероприятие завершено', callback_data='None')
         kb = types.InlineKeyboardMarkup().row(btn)
@@ -354,7 +362,7 @@ def complete(event_id):
 
             kb.row(btn_1).row(btn_2)
 
-        bot.edit_message_reply_markup(chat_id=data['chat_id'], message_id=tech_msg, reply_markup=kb)
+        bot.edit_message_reply_markup(chat_id=chat_id, message_id=tech_msg, reply_markup=kb)
 
         return render_template('ok.html', message='Мероприятие завершено')
 

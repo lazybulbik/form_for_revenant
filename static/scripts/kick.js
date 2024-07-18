@@ -6,8 +6,7 @@ function kick(button) {
         },
         body: JSON.stringify({
             user_id: button.id,
-            event_id: document.getElementById('event_id').textContent,
-            chat_id: window.Telegram.WebApp.initDataUnsafe.chat.id
+            event_id: document.getElementById('event_id').textContent
         })
     })
     .then(response => response.json())

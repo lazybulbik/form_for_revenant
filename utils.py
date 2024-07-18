@@ -1,10 +1,12 @@
 import datetime
 from database_server import Database
-from config import db_url
+from config import db_url, GROUP_ID_GLOBAL, GROUP_ID_ALCO, GROUP_ID_CHLB, GROUP_ID
 from datetime import datetime, timedelta, timezone
 
 from config import bot_token
 from telebot import TeleBot, types
+
+
 
 db = Database(db_url)
 bot = TeleBot(bot_token)
@@ -85,3 +87,8 @@ def get_event_menu(event_id):
     kb = types.InlineKeyboardMarkup().row(btn_1, btn_2).row(btn_3).row(btn_4)
 
     return photo, text, kb        
+
+
+
+def get_chanel_id(name):
+    return {'ekb': GROUP_ID, 'alco': GROUP_ID_ALCO, 'chlb': GROUP_ID_CHLB}[name]

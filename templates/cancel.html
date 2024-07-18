@@ -32,7 +32,6 @@
             <br><br> -->
 
             <input class="btn" type="submit" value="Отменить мероприятие">
-            <input type="text" name="chat_id" id="chat_id" style="display: none;">
         </form>
         <div class="back">
             <a href="/event/{{ event_id }}">⬅️ Назад</a>
@@ -57,9 +56,6 @@
                 background-image: url('/static/event.jpg');
             }
         </style>
-        <script>
-            document.getElementById('chat_id').value = window.Telegram.WebApp.initDataUnsafe.chat.id
-        </script>
     </div>
     </div>
     <script src="/static/scripts/cancel.js?{{ anticash }}"></script>

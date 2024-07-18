@@ -21,7 +21,6 @@
             <label for="reason">Приложите ссылку на фото. Если их не нет, оставьте поле пустым</label>
             <br>
             <input type="url" class="form-control" name="link" id="link" pattern="https?://.+" title="Введите ссылку в формате https://example.com">
-            <input type="text" name="chat_id" id="chat_id" style="display: none;">
             <br><br>            
             <!-- <label for="photo">Прикрепите фото для объявления об отмене:</label>
             <br>
@@ -57,9 +56,6 @@
                 background-image: url('/static/event.jpg');
             }
         </style>
-        <script>
-            document.getElementById("chat_id").value = window.Telegram.WebApp.initDataUnsafe.chat.id;
-        </script>
     </div>
     </div>
     <script src="/static/scripts/cancel.js?{{ anticash }}"></script>
