@@ -11,12 +11,12 @@ bot = TeleBot(bot_token)
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
-@app.after_request
-def disable_caching(response):
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = "0"
-    return response
+# @app.after_request
+# def disable_caching(response):
+#     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+#     response.headers["Pragma"] = "no-cache"
+#     response.headers["Expires"] = "0"
+#     return response
 
 def add_user(user_id):
     db = Database(db_url)
@@ -215,6 +215,63 @@ def set_notify():
         return {'status': 'add'}
 
 
+@app.route('/api/users_list', methods=['POST'])
+def users_list():
+    data = request.get_json()
+
+    event_id = data['event_id']
+
+    db = Database(db_url)
+
+    event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
+
+    result = []
+
+    for user in event_data['ready'] + event_data['maybe']:
+        user_data = db.get_data(table='users', filters={'id': user})[0]
+
+        result.append({
+            'name': user_data['name'],
+            'kick': user in event_data['blacklist'],
+            'id': user
+        })
+
+    del db
+
+    return result
+
+
+@app.route('/api/kick_user', methods=['POST'])
+def kick_user():
+    data = request.get_json()
+
+    user_id = data['user_id']
+    event_id = data['event_id']
+    chat_id = data['chat_id']
+
+    db = Database(db_url)
+
+    event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
+
+    kb = utils.get_event_menu(event_id)[2]
+    bot.edit_message_reply_markup(chat_id=chat_id, message_id=event_data['message_id'], reply_markup=kb)
+
+    user_name = db.get_data(table='users', filters={'id': user_id})[0]['name']
+    if user_id in event_data['blacklist']:
+        event_data['blacklist'].remove(user_id)
+        db.update_data(data={'data': str(event_data)}, filters={'id': event_id}, table='events')
+
+        del db
+
+        return {'status': 'remove', 'name': user_name}
+    else:
+        event_data['blacklist'].append(user_id)
+        db.update_data(data={'data': str(event_data)}, filters={'id': event_id}, table='events')
+
+        del db
+
+        return {'status': 'kick', 'name': user_name}
+
 @app.route('/event/<event_id>/cancel', methods=['POST', 'GET'])
 def cancel(event_id):
     if request.method == 'POST':
@@ -231,7 +288,7 @@ def cancel(event_id):
 
         cancel_text = f'К сожалению, мероприятие отменено. \n\nПричина: {data["reason"]}'
 
-        bot.edit_message_reply_markup(chat_id=-1002165833102, message_id=tech_msg, reply_markup=kb)
+        bot.edit_message_reply_markup(chat_id=data['chat_id'], message_id=tech_msg, reply_markup=kb)
 
         for user in event_data['ready'] + event_data['maybe']:
             photo = types.InputFile('static/1.jpg')
@@ -288,7 +345,7 @@ def complete(event_id):
 
             kb.row(btn_1).row(btn_2)
 
-        bot.edit_message_reply_markup(chat_id=5061120370, message_id=tech_msg, reply_markup=kb)
+        bot.edit_message_reply_markup(chat_id=data['chat_id'], message_id=tech_msg, reply_markup=kb)
 
         return render_template('ok.html', message='Мероприятие завершено')
 
@@ -298,6 +355,11 @@ def complete(event_id):
 @app.route('/event/<event_id>/remind')
 def remind(event_id,):
     return render_template('remind.html', event_id=event_id, anticash=time.time())
+
+
+@app.route('/event/<event_id>/kick')
+def kick(event_id,):
+    return render_template('kick.html', event_id=event_id, anticash=time.time())
 
 
 if __name__ == '__main__':

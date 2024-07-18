@@ -4,7 +4,7 @@ from config import db_url
 from datetime import datetime, timedelta, timezone
 
 from config import bot_token
-from telebot import TeleBot
+from telebot import TeleBot, types
 
 db = Database(db_url)
 bot = TeleBot(bot_token)
@@ -60,3 +60,29 @@ def is_sub(user_id):
     except Exception as e:
         print(e)
         return False        
+
+
+def get_event_menu(event_id):
+    event = db.get_data(table='events', filters={'id': event_id})[0]
+
+    photo = event['photo']
+    text = event['text']
+
+    event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
+    go_len = len([user for user in event_data['ready'] if user not in event_data['blacklist']])
+    maybe_len = len([user for user in event_data['maybe'] if user not in event_data['blacklist']])
+    no_len = len(event_data['no'])
+
+    status_event_type = 'Частное' if event_data['blacklist'] else 'Открытое'
+    text += f'\n🔐 *Тип мероприятия:* {status_event_type}'
+
+    btn_1 = types.InlineKeyboardButton(text=f'✅ Иду ({go_len})', callback_data=f'event:choose:ready:{event_id}')
+    btn_2 = types.InlineKeyboardButton(text=f'☑️ Может быть приду ({maybe_len})',
+                                        callback_data=f'event:choose:maybe:{event_id}')
+    btn_3 = types.InlineKeyboardButton(text=f'⛔️ Не приду ({no_len})', callback_data=f'event:choose:no:{event_id}')
+    btn_4 = types.InlineKeyboardButton(text='⚙️ Подробнее',
+                                        web_app=types.WebAppInfo(url=f'https://form-for-revenant.vercel.app/event/{event_id}'))
+
+    kb = types.InlineKeyboardMarkup().row(btn_1, btn_2).row(btn_3).row(btn_4)
+
+    return photo, text, kb        
