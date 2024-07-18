@@ -117,6 +117,15 @@ def nope():
     return render_template('nope.html')
 
 
+@app.route('/event')
+def events_list():
+    args = request.args
+    if args:
+        event_id = args.get('event_id')
+
+        return redirect('/event/' + event_id)
+
+
 @app.route('/event/<event_id>')
 def events(event_id):
     anticash = time.time()
