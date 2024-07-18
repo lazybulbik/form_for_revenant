@@ -170,6 +170,20 @@ def cancel(event_id):
     if request.method == 'POST':
         data = request.form.to_dict()
         file = request.files['file']
+        db = Database(db_url)
+
+        event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
+
+        for user in event_data['ready'] + event_data['maybe']:
+            if file:
+                bot.send_photo(5061120370, file, caption=data['reason'])
+            else:
+                bot.send_message(5061120370, data['reason'])
+
+            break
+            time.sleep(1.5)
+
+        del db
 
         return 'ok'
     else:
