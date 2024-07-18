@@ -165,6 +165,56 @@ def is_admin():
     return {'status': is_admin or event_data['creator'] == user_id}
 
 
+@app.route('/api/users_notify', methods=['POST'])
+def users_notify():
+    data = request.get_json()
+
+    user_id = data['user_id']
+    event_id = data['event_id']
+
+    db = Database(db_url)
+
+    event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
+    notify = event_data['notify']
+
+    result = {
+        '2': user_id in notify['2'],
+        '4': user_id in notify['4'],
+        '24': user_id in notify['24'],
+        '72': user_id in notify['72'],
+        '168': user_id in notify['168'],
+    }
+
+    del db
+
+    return result
+
+
+@app.route('/api/set_notify', methods=['POST'])
+def set_notify():
+    data = request.get_json()
+
+    user_id = data['user_id']
+    event_id = data['event_id']
+    notify_id = data['notify']
+
+    db = Database(db_url)
+
+    event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
+
+
+    if user_id in event_data['notify'][notify_id]:
+        event_data['notify'][notify_id].remove(user_id)
+        db.update_data(data={'data': str(event_data)}, filters={'id': event_id}, table='events')
+        del db
+        return {'status': 'remove'}
+    else:
+        event_data['notify'][notify_id].append(user_id)
+        db.update_data(data={'data': str(event_data)}, filters={'id': event_id}, table='events')
+        del db
+        return {'status': 'add'}
+
+
 @app.route('/event/<event_id>/cancel', methods=['POST', 'GET'])
 def cancel(event_id):
     if request.method == 'POST':
@@ -244,6 +294,10 @@ def complete(event_id):
 
     else:
         return render_template('complete.html', event_id=event_id, anticash=time.time())
+
+@app.route('/event/<event_id>/remind')
+def remind(event_id):
+    return render_template('remind.html', event_id=event_id, anticash=time.time())
 
 
 if __name__ == '__main__':
