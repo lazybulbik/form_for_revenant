@@ -38,7 +38,7 @@ buttons.forEach(button => {
             button.innerHTML = '✅ ' + button.innerHTML;
         }
         else {
-            button.innerHTML = button.innerHTML.slice(2, -1);
+            button.innerHTML = button.innerHTML.slice(2);
         }
     })
 })});
