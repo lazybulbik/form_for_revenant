@@ -296,7 +296,7 @@ def complete(event_id):
         return render_template('complete.html', event_id=event_id, anticash=time.time())
 
 @app.route('/event/<event_id>/remind')
-def remind(event_id):
+def remind(event_id,):
     return render_template('remind.html', event_id=event_id, anticash=time.time())
 
 
