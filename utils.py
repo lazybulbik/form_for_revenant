@@ -1,6 +1,6 @@
 import datetime
 from database_server import Database
-from config import db_url, GROUP_ID_GLOBAL, GROUP_ID_ALCO, GROUP_ID_CHLB, GROUP_ID
+from config import db_url, GROUP_ID_ALCO, GROUP_ID_CHLB, GROUP_ID
 from datetime import datetime, timedelta, timezone
 
 from config import bot_token
