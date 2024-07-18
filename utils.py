@@ -71,8 +71,8 @@ def get_event_menu(event_id):
     text = event['text']
 
     event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
-    
-    blacklist = list(map(str, event['blacklist']))
+
+    blacklist = list(map(str, event_data['blacklist']))
 
     go_len = len([user for user in event_data['ready'] if str(user) not in blacklist])
     maybe_len = len([user for user in event_data['maybe'] if str(user) not in blacklist])
