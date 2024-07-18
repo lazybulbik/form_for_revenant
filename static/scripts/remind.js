@@ -1,6 +1,6 @@
 const buttons = document.querySelectorAll('button');
 
-fetch('../api/users_notify', {
+fetch('/api/users_notify', {
     method: 'POST',
     body: JSON.stringify({
         'user_id': window.Telegram.WebApp.initDataUnsafe.user.id,
@@ -18,7 +18,7 @@ fetch('../api/users_notify', {
 
 buttons.forEach(button => {
   button.addEventListener('click', () => {
-    fetch('../api/set_notify', {
+    fetch('/api/set_notify', {
         method: 'POST',
         body: JSON.stringify({
             'user_id': window.Telegram.WebApp.initDataUnsafe.user.id,
