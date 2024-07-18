@@ -264,9 +264,6 @@ def kick_user():
 
     chat_id = utils.get_chanel_id(event['city'])
 
-    kb = utils.get_event_menu(event_id)[2]
-    bot.edit_message_reply_markup(chat_id=chat_id, message_id=event_data['message_id'], reply_markup=kb)
-
     user_name = db.get_data(table='users', filters={'id': user_id})[0]['name']
     if user_id in event_data['blacklist']:
         event_data['blacklist'].remove(user_id)
@@ -274,12 +271,18 @@ def kick_user():
 
         del db
 
+        kb = utils.get_event_menu(event_id)[2]
+        bot.edit_message_reply_markup(chat_id=chat_id, message_id=event_data['message_id'], reply_markup=kb)        
+
         return {'status': 'remove', 'name': user_name}
     else:
         event_data['blacklist'].append(user_id)
         db.update_data(data={'data': str(event_data)}, filters={'id': event_id}, table='events')
 
         del db
+
+        kb = utils.get_event_menu(event_id)[2]
+        bot.edit_message_reply_markup(chat_id=chat_id, message_id=event_data['message_id'], reply_markup=kb)        
 
         return {'status': 'kick', 'name': user_name}
 
