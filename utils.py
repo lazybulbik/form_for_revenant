@@ -1,6 +1,6 @@
 import datetime
 from database_server import Database
-from config import db_url, GROUP_ID_ALCO, GROUP_ID_CHLB, GROUP_ID
+from config import db_url, GROUP_ID_ALCO, GROUP_ID_CHLB, GROUP_ID, ADMIN_ID_ADD, GROUP_ID_ADD
 from datetime import datetime, timedelta, timezone
 
 from config import bot_token
@@ -41,6 +41,9 @@ def is_event_expired(event_id):
 
 def is_admin(user_id):
     print('Checking admin', user_id)
+    if user_id == ADMIN_ID_ADD:
+        return 'add_admin'
+
     try:
         user = bot.get_chat_member(-1002165833102, user_id)
         print(user)
@@ -96,4 +99,4 @@ def get_event_menu(event_id):
 
 
 def get_chanel_id(name):
-    return {'ekb': GROUP_ID, 'alco': GROUP_ID_ALCO, 'chlb': GROUP_ID_CHLB}[name]
+    return {'ekb': GROUP_ID, 'alco': GROUP_ID_ALCO, 'chlb': GROUP_ID_CHLB, 'add': GROUP_ID_ADD}[name]

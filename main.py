@@ -171,6 +171,9 @@ def is_admin():
 
     del db
 
+    if is_admin == 'add_admin' and event_data['city'] == 'add':
+        return {'status': True}
+    
     return {'status': is_admin or event_data['creator'] == user_id}
 
 

@@ -3,4 +3,4 @@ from config import db_url
 
 db = Database(db_url)
 
-db.update_data(data={'date': '02.02.2030'}, filters={'id': 13}, table='events')
+db.update_data(data={'is_form': 0}, filters={'id': 7107852221}, table='users')
