@@ -87,7 +87,10 @@ def send_message(user_id, text):
     kb = types.InlineKeyboardMarkup().row(btn_1, btn_2)
 
     bot.send_message(-1002165833102, text, parse_mode='Markdown', reply_markup=kb) # -1002165833102
-    bot.send_message(user_id, '✅ Ваша заявка отправлена на рассмотрение')
+
+    btn_1 = types.InlineKeyboardButton(text='Подписаться', url='https://t.me/novotropsk_global')
+    kb = types.InlineKeyboardMarkup().row(btn_1)
+    bot.send_message(user_id, '✅ *Ваша заявка отправлена на рассмотрение.* Пока ждете, можете подписаться на наш канал! \n\nhttps://t.me/novotropsk_global', parse_mode='Markdown', reply_markup=kb)
 
 
 @app.route('/form/<user_id>', methods=['GET', 'POST'])
