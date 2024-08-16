@@ -6,6 +6,8 @@ import utils
 
 import time
 
+from threading import Thread
+
 bot = TeleBot(bot_token)
 
 app = Flask(__name__)
@@ -343,27 +345,37 @@ def cancel(event_id):
         return render_template('cancel.html', event_id=event_id, anticash=time.time())
 
 
-@app.route('/event/<event_id>/mailing', methods=['POST', 'GET'])
-def mailing(event_id):
-    if request.method == 'POST':
-        data = request.form.to_dict()
-        db = Database(db_url)
 
-        print(data)
+def make_mainiling(event_id, data):
+    db = Database(db_url)
 
-        event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
+    print(data)
 
-        for user in event_data['ready'] + event_data['maybe']:
+    event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
+
+    for user in event_data['ready'] + event_data['maybe']:
+        try:
             if str(user) in list(map(str, event_data['blacklist'])):
                 continue
 
             bot.send_message(user, data['message'])
 
             time.sleep(1.5)
+        except:
+            pass
 
-        del db
+    del db
 
-        return render_template('ok.html', message='Рассылка отправлена')
+
+@app.route('/event/<event_id>/mailing', methods=['POST', 'GET'])
+def mailing(event_id):
+    if request.method == 'POST':
+        data = request.form.to_dict()
+
+        Thread(target=make_mainiling, args=(event_id, data)).start()
+
+        return render_template('ok.html', message='Рассылка запущена')
+
     else:
         return render_template('mailing.html', event_id=event_id, anticash=time.time())
 
