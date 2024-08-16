@@ -360,7 +360,7 @@ def make_mainiling(event_id, data):
 
             bot.send_message(user, data['message'])
 
-            time.sleep(1.5)
+            time.sleep(0.5)
         except:
             pass
 
