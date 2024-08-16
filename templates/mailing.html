@@ -18,13 +18,11 @@
         <h5>Все участники, голосовавшие за "Иду" и "Возможно" получат уведомление</h5>
         <br><br>
 
-        <form method="post">
-            <label for="message">Сообщение:</label>
-            <br>
-            <input type="text" class="form-control" name="message" id="message" required>
-            <br><br>            
-            <input class="btn" type="submit" value="Отправить">
-        </form>
+        <label for="message">Сообщение:</label>
+        <br>
+        <input type="text" class="form-control" name="message" id="message" required>
+        <br><br>            
+        <input class="btn" id="submit" value="Отправить">
     </div>
     <div class="back">
         <a href="/event/{{ event_id }}">⬅️ Назад</a>
@@ -49,5 +47,20 @@
             background-image: url('/static/event.jpg');
         }
     </style>
+
+    <script>
+        document.getElementById('submit').addEventListener('click', () => {
+            fetch('/api/make_mailing', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    event_id: document.getElementById('event_id').textContent,
+                    message: document.getElementById('message').value
+                })
+            })
+        })
+    </script>
 </body>
 </html>

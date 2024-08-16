@@ -345,11 +345,8 @@ def cancel(event_id):
         return render_template('cancel.html', event_id=event_id, anticash=time.time())
 
 
-
-def make_mainiling(event_id, data):
+def make_mainiling(event_id, message):
     db = Database(db_url)
-
-    print(data)
 
     event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
 
@@ -358,7 +355,7 @@ def make_mainiling(event_id, data):
             if str(user) in list(map(str, event_data['blacklist'])):
                 continue
 
-            bot.send_message(user, data['message'])
+            bot.send_message(user, message)
 
             time.sleep(0.5)
         except:
@@ -367,12 +364,29 @@ def make_mainiling(event_id, data):
     del db
 
 
+@app.route('/api/make_mailing', methods=['POST'])
+def make_mailing_api():
+    data = request.get_json()
+
+    event_id = data['event_id']
+    message = data['message']
+
+    Thread(target=make_mainiling, args=(event_id, message)).start()
+
+    return {'status': 'ok'}
+
+
+@app.route('/event/<event_id>/mailing_ok', methods=['POST', 'GET'])
+def mailing(event_id):
+    return render_template('ok.html', message='Рассылка запущена')
+
+
 @app.route('/event/<event_id>/mailing', methods=['POST', 'GET'])
 def mailing(event_id):
     if request.method == 'POST':
         data = request.form.to_dict()
 
-        Thread(target=make_mainiling, args=(event_id, data)).start()
+        # Thread(target=make_mainiling, args=(event_id, data)).start()
 
         return render_template('ok.html', message='Рассылка запущена')
 
