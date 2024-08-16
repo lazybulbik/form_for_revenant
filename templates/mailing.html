@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">    
     <link rel="stylesheet" href="/static/style.css?{{ anticash }}">
     <title>Document</title>
+    <input type="hidden" id="event_id" value="{{ event_id }}">
 </head>
 <header>
 </header>
@@ -56,7 +57,7 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    event_id: document.getElementById('event_id').textContent,
+                    event_id: document.getElementById('event_id').value,
                     message: document.getElementById('message').value
                 })
             })
