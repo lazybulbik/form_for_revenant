@@ -7,6 +7,7 @@ import utils
 import time
 
 from threading import Thread
+import requests
 
 bot = TeleBot(bot_token)
 
@@ -345,27 +346,6 @@ def cancel(event_id):
         return render_template('cancel.html', event_id=event_id, anticash=time.time())
 
 
-def make_mainiling(event_id, message):
-    db = Database(db_url)
-    bot = TeleBot(bot_token)
-
-    event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
-
-    for user in event_data['ready'] + event_data['maybe']:
-        try:
-            if str(user) in list(map(str, event_data['blacklist'])):
-                continue
-
-            bot.send_message(user, message)
-
-            time.sleep(0.5)
-        except Exception as e:
-            pass
-
-    del db
-    del bot
-
-
 @app.route('/api/make_mailing', methods=['POST'])
 def make_mailing_api():
     data = request.get_json()
@@ -373,7 +353,7 @@ def make_mailing_api():
     event_id = data['event_id']
     message = data['message']
 
-    Thread(target=make_mainiling, args=(event_id, message)).start()
+    requests.post(f'{db_url}/api/make_mailing', json={'event_id': event_id, 'message': message})
 
     return {'status': 'ok'}
 
