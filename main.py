@@ -376,8 +376,8 @@ def make_mailing_api():
     return {'status': 'ok'}
 
 
-@app.route('/mailing_ok', methods=['POST', 'GET'])
-def mailing_ok(event_id):
+@app.route('/mailing-ok', methods=['POST', 'GET'])
+def mailing_ok():
     return render_template('ok.html', message='Рассылка запущена')
 
 
