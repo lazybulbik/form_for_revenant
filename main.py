@@ -347,6 +347,7 @@ def cancel(event_id):
 
 def make_mainiling(event_id, message):
     db = Database(db_url)
+    bot = TeleBot(bot_token)
 
     event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
 
@@ -358,10 +359,11 @@ def make_mainiling(event_id, message):
             bot.send_message(user, message)
 
             time.sleep(0.5)
-        except:
+        except Exception as e:
             pass
 
     del db
+    del bot
 
 
 @app.route('/api/make_mailing', methods=['POST'])
