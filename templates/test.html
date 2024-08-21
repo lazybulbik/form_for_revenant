@@ -4,26 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-</head>
-<body>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
-        .center {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-    </style>
-    <div class="center">
-        <input type="text" id="input" style="width: 50%; text-align: center;">
-        <br>
-        <input type="text" id="output">
-        <br>
-        <button id="test">test</button>
-    </div>
+        body {
+            background-color: var(--tg-theme-secondary-bg-color);
+        }
+        .inner {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            padding: 2%;
+        }
+        header {
+            text-align: center;
+            color: var(--tg-theme-text-color);
+            background-color: var(--tg-theme-header-bg-color);
+            padding: 5%;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        .container {
+            display: flex;
+            margin-top: 5%;
+            /* padding-left: 2%; */
 
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="../static/scripts/event.js"></script>
+            background-color: var(--tg-theme-bg-color);
+            border-radius: 20px;
+            padding: 5%;
+        }
+        .space-around {
+            display: flex;
+            justify-content: space-around;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+        }
+        .base-text {
+            color: var(--tg-theme-text-color);
+            margin-top: 3%;
+        }
+        .title-text {
+            color: var(--tg-theme-section-header-text-color);
+            font-size: 20px;
+            margin-bottom: 3%;
+        }
+        .margin-top {
+            margin-top: 2%;
+        }
+        button {
+            background-color: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            border-radius: 20px;
+            padding: 3%;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        a {
+            color: var(--tg-theme-link-color);
+            text-decoration: n;
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+
+    </style>
+</head>
+<header>
+    <h2>👻 Гулллять уррааа</h2>
+</header>
+<body>
+    <div class="inner">
+        <div class="container column">
+            <div class="base-text">📅 Дата: 25.01.2004</div>
+            <div class="base-text">⏰ Время: 12:00</div>
+            <div class="base-text">📍 Адрес: Москва, ул. Профсоюзная, д. 2</div>
+            <div class="base-text">📄 Примечание: без хорошего настроения не пущу</div>
+            <div class="base-text">🔐 Тип мероприятия: открытое</div>
+            <div class="base-text">👤 Оранизатор: <a href="https://t.me/lazy_bulbik">@lazy_bulbik</a></div>
+        </div>
+        <div class="container column">
+            <div class="space-around">
+                <button>✅ Иду</button>
+                <button>☑️ Возможно</button>
+                <button>❌ Не иду</button>
+            </div>
+            <div class="base-text" style="text-align: center; color: var(--tg-theme-hint-color);">Участников проголосовало: 5</div>
+        </div>
+        <div class="container column">
+            <div class="space-around margin-top">
+                <button>🔔 Напоминание</button>
+            </div>
+
+            <div class="column">
+                <div class="space-around margin-top">
+                    <button>🚫 Отменить мероприятие</button>
+                </div>
+                <div class="space-around margin-top">
+                    <button>🔄 Удалить участников</button>
+                </div>
+                <div class="space-around margin-top">
+                    <button>💬 Рассылка</button>
+                </div>                
+            </div>
+
+        </div>
+        <div class="container column">
+            <div class="title-text">✅ Иду (3)</div>
+            <div class="base-text">✅Иван Иванов</div>
+            <div class="base-text">✅Мария Петрова</div>
+            <div class="base-text">☑️Александр Смирнов</div>
+        </div>
+        <div class="container column">
+            <div class="title-text">❌ Не иду (2)</div>
+            <div class="base-text">Иван Иванов</div>
+            <div class="base-text">Мария Петрова</div>
+        </div>
+    </div>
 </body>
 </html>
