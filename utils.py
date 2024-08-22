@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, timezone
 
 from config import bot_token
 from telebot import TeleBot, types
+import emoji
 
 
 
@@ -100,3 +101,38 @@ def get_event_menu(event_id):
 
 def get_chanel_id(name):
     return {'ekb': GROUP_ID, 'alco': GROUP_ID_ALCO, 'chlb': GROUP_ID_CHLB, 'add': GROUP_ID_ADD}[name]
+
+
+def split_by_emoji(text):
+    res = []
+    temp = ''
+    for char in text:
+        if emoji.is_emoji(char):
+            if temp:
+                temp = temp.strip()
+                temp = temp.replace('\n', '')
+                temp = temp.replace('*', '')                
+                res.append(temp)
+                temp = ''
+        temp += char
+
+    if temp:
+        temp = temp.strip()
+        temp = temp.replace('\n', '')
+        temp = temp.replace('*', '')
+        res.append(temp)
+    return res
+
+text = '''
+🐶 *Вас позвали на встречу!*
+
+🗓 *Дата:* 27.07.2024
+🕘 *Время:* 15:00
+👾 *Что планируется:* Посидеть в антикафе, поиграть в настолки, попить чай-кофе
+⛳️ *Адрес:* Антикафе Коммуникатор
+📝 *Примечание:* Погода дрянь, но предлагаю встретиться в антикафешке.
+Поиграем в настолки, пообщаемся. Для тех кто не в курсе - там сидеть платно, но не дорого. Чуть позже напишу скок деняк нада 
+
+👨‍💻 *Организатор:* @Temnodush'''
+
+print(split_by_emoji(text=text))

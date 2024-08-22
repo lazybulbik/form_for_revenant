@@ -3,97 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">    
+    <title>Document</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="/static/style.css?{{ anticash }}">
+    <input type="hidden" value="{{ event_id }}" id='event_id'>
+
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            background-image: url('/static/event.jpg');
+            background-color: var(--tg-theme-secondary-bg-color);
+        }
+        .inner {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            padding: 2%;
+        }
+        header {
+            text-align: center;
+            color: var(--tg-theme-text-color);
+            background-color: var(--tg-theme-header-bg-color);
+            padding: 5%;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        .container {
+            display: flex;
+            margin-top: 5%;
+            /* padding-left: 2%; */
+
+            background-color: var(--tg-theme-bg-color);
+            border-radius: 20px;
+            padding: 5%;
+        }
+        .space-around {
+            display: flex;
+            justify-content: space-around;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+        }
+        .base-text {
+            color: var(--tg-theme-text-color);
+            margin-top: 3%;
+        }
+        .title-text {
+            color: var(--tg-theme-section-header-text-color);
+            font-size: 20px;
+            margin-bottom: 3%;
+        }
+        .margin-top {
+            margin-top: 2%;
+        }
+        button {
+            background-color: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            border-radius: 20px;
+            padding: 3%;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        a {
+            color: var(--tg-theme-link-color);
+            text-decoration: none;
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .preloader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--tg-theme-secondary-bg-color);
+            z-index: 9999;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 6px solid var(--tg-theme-text-color);
+            border-radius: 50%;
+            border-top: 6px solid var(--tg-theme-link-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        .text-color {
+            color: var(--tg-theme-text-color);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        button.active {
+            border: 2px solid gold;
+            transform: scale(0.95);
+        }
+        .button-like {
+            background-color: var(--tg-theme-button-color);
+            color: var(--tg-theme-button-text-color);
+            border-radius: 20px;
+            padding: 5px;
+            border: none;
+            transition: all 0.3s ease;            
+        }
+        .popup {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background-color: var(--tg-theme-bg-color);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+            transition: bottom 0.3s ease;
+
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            overflow: scroll;
+        }
+        .popup-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            text-align: center;
+        }        
+        input {
+            padding: 10px;
+            background-color: var(--tg-theme-secondary-bg-color);
+            color: var(--tg-theme-text-color);
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        textarea {
+            padding: 10px;
+            background-color: var(--tg-theme-secondary-bg-color);
+            color: var(--tg-theme-text-color);
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            resize: none;
+            height: auto;
+            min-height: 100px;            
+        }
+        input:focus {
+            outline: none;
+            border: 2px solid var(--tg-theme-link-color);
         }
     </style>
-    <title>Event</title>
 </head>
 <header>
-    <div class="event_info">
-        <h1>📆 {{ date }} 📆</h1>
-        <h1>👾 {{ plan }} 👾</h1>
-    </div>
-    <div class="tech">
-        <p id="event_id">{{ event_id }}</p>
-    </div>
-    <style>
-        .tech {
-            display: none;
-        }
-    </style>
+    <h2 id="title">👻 Гулллять уррааа</h2>
 </header>
 <body>
-    <div class="btn_block">
-        <button id="show_users" class="btn">👀 Посмотреть участников</button>
+    <div class="preloader" id="preloader-check">
+        <div class="spinner"></div>
     </div>
-    <div class="users_info">
-        <div class="user_column">
-            <h3 class="user_title">✅ Идут</h3>
-            <br>
-            <ul>
-                {% for user in ready %}
-                    {% if user in maybe %}
-                        <li>    ☑️ {{ user }}</li>
-                    {% else %}
-                        <li>    ✅ {{ user }}</li>
-                    {% endif %}
-                    <br>
-                {% endfor %}
-            </ul>
+    <div class="inner">
+        <div class="container column">
+            <div class="base-text" id="date">📅 Дата: 25.01.2004</div>
+            <div class="base-text" id="time">⏰ Время: 12:00</div>
+            <div class="base-text">📍 Адрес: <a href="#" id="adress" target="_blank">Тут адресс</a></div>
+            <div class="base-text" id="note">📄 Примечание: без хорошего настроения не пущу</div>
+            <div class="base-text" id="type">🔐 Тип мероприятия: Открытое</div>
+            <div class="base-text">👤 Оранизатор: <a href="https://t.me/lazy_bulbik" id="creator">@lazy_bulbik</a></div>
         </div>
-        <div class="user_column">
-            <h3 class="user_title">❌ Не идут</h3>
-            <br>
-            <ul>
-                {% for user in no %}
-                    <li>    ❌ {{ user }}</li>
+        <div>
+            <div class="container column" id="finish" style="display: none; align-items: center;">
+                <div class="title-text text-color">✅Меропритие завершено</div>
+                
+                <div class="column space-around" id="photos" style="align-items: center;">
+                    <div class="base-text"><a class="button-like" id="photos-btn" href="#">📷 Фотографии</a></div>
                     <br>
-                {% endfor %}
-            </ul>
+                    <div class="base-text"><a class="button-like" href="https://t.me/+DuBqBtAQVj00YmMy">👀 Подписаться на канал с фото</a></div>
+                </div>
+            </div>
+
+            <div class="container column" id="cancel" style="display: none; align-items: center;">
+                <div class="title-text text-color">❌ Мероприятие отменено</div>
+            </div>
+        </div>
+        <div class="container column" id="vote">
+            <div class="space-around">
+                <button class="vote" id="ready">✅ Иду</button>
+                <button class="vote" id="maybe">☑️ Возможно</button>
+                <button class="vote" id="no">❌ Не иду</button>
+            </div>
+            <div class="base-text" style="text-align: center; color: var(--tg-theme-hint-color);" id="total-count">Участников проголосовало: 5</div>
+        </div>
+        <div class="container column" id="btns">
+            <div class="space-around margin-top">
+                <button id="remind-btn">🔔 Напоминание</button>
+            </div>
+
+            <div class="column" id="admin-btns">
+                <div class="space-around margin-top">
+                    <button id="cancel-btn">🚫 Отменить мероприятие</button>
+                </div>
+                <div class="space-around margin-top">
+                    <button id="kick-btn">🔄 Удалить участников</button>
+                </div>
+                <div class="space-around margin-top">
+                    <button id="mail-btn">💬 Рассылка</button>
+                </div>                
+            </div>
+
+        </div>
+        <div class="container column" id="ready-users">
+            <div class="title-text" id="count-ready">✅ Иду (3)</div>
+        </div>
+        <div class="container column" id="no-users">
+            <div class="title-text" id="count-no">❌ Не иду (2)</div>
         </div>
     </div>
-    <br><br>
-    {% if not is_expired %}
-        <div class="btns_group admin">
-            <div class="single_block">
-                <a href="/event/{{ event_id }}/remind">🔔 Напоминание</a>
+    <div>
+        <div class="popup" id="popup">
+            <div class="popup-content" id="remind-popup" style="display: none;">
+                <div class="title-text text-color">🔔 Выберите время для напоминания</div>
+                <div class="column">
+                    <div class="space-around margin-top"><button class="set-remind" id='2'>За 2 часа</button></div>
+                    <div class="space-around margin-top"><button class="set-remind" id='4'>За 4 часа</button></div>
+                    <div class="space-around margin-top"><button class="set-remind" id='24'>За 1 день</button></div>
+                    <div class="space-around margin-top"><button class="set-remind" id='72'>За 3 дня</button></div>
+                    <div class="space-around margin-top"><button class="set-remind" id='168'>За неделю</button></div>
+                </div>
             </div>
-            <div class="single_block">
-                <a href="/event/{{ event_id }}/mailing">💬 Рассылка</a>
+            <div class="popup-content" id="cancel-popup" style="display: none;">
+                <div class="title-text text-color">Вы уверены, что хотите отменить мероприятие?</div>
+                <br>
+                <input type="text" name="reason" id="cancel-reason" placeholder="Причина отмены">
+                <br>
+                <button id="cancel-confirm">Отменить</button>
             </div>
-            <div class="single_block">
-                <a href="/event/{{ event_id }}/cancel">🚫 Отменить мероприятие</a>
+            <div class="popup-content" id="kick-popup" style="display: none;">
+                <div class="title-text text-color">🔄 Исключение участников</div>
+                <div class="column" id="kick-users-list">
+
+                </div>
             </div>
-            <div class="single_block">
-                <a href="/event/{{ event_id }}/kick">🔄 Удалить участников</a>
+            <div class="popup-content" id="mail-popup" style="display: none;">
+                <div class="title-text text-color">💬 Рассылка</div>
+                <br>
+                <textarea name="text" id="mail-message" placeholder="Текст рассылки"></textarea>
+                <br>
+                <button id="mail-confirm">Отправить</button>
+            </div>
+            <div class="popup-content" id="finish-popup" style="display: none;">
+                <div class="title-text text-color">✅ Завершение мероприятие</div>
+                <br>
+                <div class="base-text">Приложите ссылку на фото. Если их не нет, оставьте поле пустым</div>
+                <br>
+                <input type="url" name="link" id="finish-link" pattern="https?://.+" title="Ссылка на пост фото">
+                <br>
+                <button id="finish-confirm">Завершить</button>
             </div>
         </div>
-        <div class="btns_group user">
-            <div class="single_block">
-                <a href="/event/{{ event_id }}/remind">🔔 Напоминание</a>
-            </div>
-        </div>
-    {% else %}
-        <div class="btns_group admin">
-            <div class="single_block">
-                <a href="/event/{{ event_id }}/complete">✅ Завершить мероприятие</a>
-            </div>
-        </div>
-    {% endif %}
-    <style>
-        .admin {
-            display: none;
-        }
-        .user {
-            display: none;
-        }
-    </style>
-    <script src="../static/scripts/event.js?{{ anticash }}"></script>
+    </div>
+    <script src="/static/scripts/event.js?{{ anticash }}"></script>
+    <script src="/static/scripts/popup.js?{{ anticash }}"></script>
 </body>
 </html>

@@ -135,24 +135,91 @@ def events_list():
 @app.route('/event/<event_id>')
 def events(event_id):
     anticash = time.time()
+    return render_template('event.html', event_id=event_id, anticash=anticash)
+
+
+@app.route('/api/get_event_data', methods=['POST'])
+def get_event_data():
+    data = request.get_json()
+
+    event_id = data['event_id']
+    user_id = data['user_id']
+
+    db = Database(db_url)
+    event = db.get_data(table='events', filters={'id': event_id})[0]
+    event_data = eval(event['data'])
+
+    splited_text = utils.split_by_emoji(event['text'])
+
+    user_vote = None
+    if str(user_id) in str(event_data['ready']):
+        user_vote = 'ready'
+    elif str(user_id) in str(event_data['maybe']):
+        user_vote = 'maybe'
+    elif str(user_id) in str(event_data['no']):
+        user_vote = 'no'    
+
+    plan = event['plan']
+    date = event['date']
+    time = event['time']
+    adress = splited_text[4].replace('⛳️ Адрес: ', '')
+    note = splited_text[5].replace('📝 Примечание: ', '') if '📝 Примечание: ' in splited_text[5] else None
+    event_type = "Частное" if len(event_data['blacklist']) != 0 else "Открытое"
+    creator = splited_text[-1].split('@')[1].replace('\\', '')
+    event_status = event_data['status']
+    is_expired = utils.is_event_expired(event_id)
+    emoji = event['text'][0]
+
+    ready_users = [db.get_data(table='users', filters={'id': user})[0]['name'] for user in event_data['ready']]
+    maybe_users = [db.get_data(table='users', filters={'id': user})[0]['name'] for user in event_data['maybe']]
+    no_users = [db.get_data(table='users', filters={'id': user})[0]['name'] for user in event_data['no']]
+    map_link = f'https://yandex.ru/maps/?text={'+'.join(adress.split())}'
+
+    photo_url = None if event_status != 'finish' else event_data['photo_url']
+
+    response_data = {
+        'date': date,
+        'time': time,
+        'plan': plan,
+        'adress': adress,
+        'note': note,
+        'event_type': event_type,
+        'creator': creator,
+        'event_status': event_status,
+        'is_expired': is_expired,
+        'ready_users': ready_users,
+        'maybe_users': maybe_users,
+        'no_users': no_users,
+        'emoji': emoji,
+        'map_link': map_link,
+        'user_vote': user_vote,
+        'photo_url': photo_url
+    }
+    del db
+    return response_data
+
+@app.route('/api/vote', methods=['POST'])
+def vote():
+    data = request.get_json()
+
+    user_id = data['user_id']
+    event_id = data['event_id']
+    vote = data['vote']
+
     db = Database(db_url)
 
-    event_data = db.get_data(table='events', filters={'id': event_id})[0]
+    event_data = eval(db.get_data(table='events', filters={'id': event_id})[0]['data'])
+    if user_id in event_data['ready']: event_data['ready'].remove(user_id)
+    if user_id in event_data['maybe']: event_data['maybe'].remove(user_id)
+    if user_id in event_data['no']: event_data['no'].remove(user_id)    
+    event_data[vote].append(user_id)
+    db.update_data(data={'data': str(event_data)}, filters={'id': event_id}, table='events')
 
-    plan = event_data['plan']
-    date = event_data['date']
-    event_tech_data = eval(event_data['data'])
-
-    ready = [db.get_data(table='users', filters={'id': user_id})[0]['name'] for user_id in event_tech_data['ready']]
-    maybe = [db.get_data(table='users', filters={'id': user_id})[0]['name'] for user_id in event_tech_data['maybe']]
-    no = [db.get_data(table='users', filters={'id': user_id})[0]['name'] for user_id in event_tech_data['no']]
-
-    ready = ready + maybe
-
-    is_expired = utils.is_event_expired(event_id)
-
-    del db
-    return render_template('event.html', plan=plan, date=date, ready=ready, maybe=maybe, no=no, event_id=event_id, is_expired=is_expired, anticash=anticash)
+    ready_users = [db.get_data(table='users', filters={'id': user})[0]['name'] for user in event_data['ready']]
+    maybe_users = [db.get_data(table='users', filters={'id': user})[0]['name'] for user in event_data['maybe']]
+    no_users = [db.get_data(table='users', filters={'id': user})[0]['name'] for user in event_data['no']]
+    
+    return {'status': 'ok', 'ready_users': ready_users, 'maybe_users': maybe_users, 'no_users': no_users}
 
 
 @app.route('/test')
@@ -271,45 +338,50 @@ def kick_user():
     event = db.get_data(table='events', filters={'id': event_id})[0]
     event_data = eval(event['data'])
 
-    chat_id = utils.get_chanel_id(event['city'])
-
     user_name = db.get_data(table='users', filters={'id': user_id})[0]['name']
-    if user_id in event_data['blacklist']:
+
+    status = None
+    if str(user_id) in str(event_data['blacklist']):
         event_data['blacklist'].remove(user_id)
         db.update_data(data={'data': str(event_data)}, filters={'id': event_id}, table='events')
 
         del db
 
-        photo, text, kb = utils.get_event_menu(event_id)
-        try:
-            bot.edit_message_text(chat_id=chat_id, text=text, message_id=event_data['message_id'], reply_markup=kb, parse_mode='Markdown')        
-        except Exception as e:
-            print(e)
-            try:
-                bot.edit_message_caption(chat_id=chat_id, caption=text, message_id=event_data['message_id'], reply_markup=kb, parse_mode='Markdown')
-            except Exception as e:
-                print(e)
-                pass
-
-        return {'status': 'remove', 'name': user_name}
+        status = 'remove'
     else:
         event_data['blacklist'].append(user_id)
         db.update_data(data={'data': str(event_data)}, filters={'id': event_id}, table='events')
 
-        del db
+        status = 'kick'
 
-        photo, text, kb = utils.get_event_menu(event_id)
-        try:
-            bot.edit_message_text(chat_id=chat_id, text=text, message_id=event_data['message_id'], reply_markup=kb, parse_mode='Markdown')        
-        except Exception as e:
-            print(e)
-            try:
-                bot.edit_message_caption(chat_id=chat_id, caption=text, message_id=event_data['message_id'], reply_markup=kb, parse_mode='Markdown')
-            except Exception as e:
-                print(e)
-                pass
+    event_type = "Частное" if len(event_data['blacklist']) != 0 else "Открытое"
 
-        return {'status': 'kick', 'name': user_name}
+    return {'status': status, 'name': user_name, 'type': event_type}
+
+
+@app.route('/api/cancel_event', methods=['POST'])
+def cancel_event():
+    data = request.get_json()
+
+    event_id = data['event_id']
+    reason = data['reason']
+
+    db = Database(db_url)
+    event = db.get_data(table='events', filters={'id': event_id})[0]
+    event_data = eval(event['data'])
+
+    cancel_text = f'К сожалению, мероприятие отменено. \n\nПричина: {reason}'
+
+    requests.post(f'{db_url}/api/make_mailing', json={'event_id': event_id, 'message': cancel_text})
+
+    event_data['status'] = 'cancel'
+    db.update_data(data={'data': str(event_data)}, filters={'id': event_id}, table='events')
+
+    del db, bot
+
+    return {'status': 'ok'}
+
+
 
 @app.route('/event/<event_id>/cancel', methods=['POST', 'GET'])
 def cancel(event_id):
@@ -374,6 +446,26 @@ def mailing(event_id):
 
     else:
         return render_template('mailing.html', event_id=event_id, anticash=time.time())
+
+
+@app.route('/api/complete', methods=['POST'])
+def complete_api():
+    data = request.get_json()
+
+    event_id = data['event_id']
+    photo_url = data['photo_url'] if data['photo_url'] else None
+
+    db = Database(db_url)
+    event = db.get_data(table='events', filters={'id': event_id})[0]
+    event_data = eval(event['data'])
+
+    event_data['status'] = 'finish'
+    event_data['photo_url'] = photo_url
+    db.update_data(data={'data': str(event_data)}, filters={'id': event_id}, table='events')
+
+    del db
+
+    return {'status': 'ok'}
 
 
 @app.route('/event/<event_id>/complete', methods=['POST', 'GET'])
