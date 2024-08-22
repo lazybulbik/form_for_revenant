@@ -135,7 +135,7 @@ def events_list():
 @app.route('/event/<event_id>')
 def events(event_id):
     anticash = time.time()
-    return render_template('event.html', event_id=event_id, anticash=anticash)
+    return render_template('new_event.html', event_id=event_id, anticash=anticash)
 
 
 @app.route('/api/get_event_data', methods=['POST'])
