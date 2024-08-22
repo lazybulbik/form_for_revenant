@@ -14,12 +14,12 @@ bot = TeleBot(bot_token)
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
-# @app.after_request
-# def disable_caching(response):
-#     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-#     response.headers["Pragma"] = "no-cache"
-#     response.headers["Expires"] = "0"
-#     return response
+@app.after_request
+def disable_caching(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
 
 def add_user(user_id):
     db = Database(db_url)
