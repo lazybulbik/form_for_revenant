@@ -132,7 +132,7 @@ def events_list():
         return redirect('/event/' + event_id)
 
 
-@app.route('/event/<event_id>')
+@app.route('/new_event/<event_id>')
 def events(event_id):
     anticash = time.time()
     return render_template('new_event.html', event_id=event_id, anticash=anticash)
