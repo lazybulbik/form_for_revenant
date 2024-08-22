@@ -129,7 +129,7 @@ def events_list():
     if args:
         event_id = args.get('tgWebAppStartParam')
 
-        return redirect('/event/' + event_id)
+        return redirect('/new_event/' + event_id)
 
 
 @app.route('/new_event/<event_id>')
