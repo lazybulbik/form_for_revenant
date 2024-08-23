@@ -317,7 +317,7 @@ def users_list():
 
         result.append({
             'name': user_data['name'],
-            'kick': user in event_data['blacklist'],
+            'kick': str(user) in str(event_data['blacklist']),
             'id': user
         })
 
