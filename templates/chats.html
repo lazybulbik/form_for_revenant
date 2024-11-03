@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="/static/new_styles.css">
+
+    <style>
+        .chat-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+            
+            justify-content: center;
+            align-items: center;
+
+            padding: 3%;
+            width: 100%;
+        }
+        .chat {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+            padding: 20px 20px;
+            
+            justify-content: center;
+
+            background-color: var(--tg-theme-secondary-bg-color);
+            border-radius: 15px;
+            width: 100%;
+
+            text-align: left;
+        }
+        button {
+            width: 100%;
+        }
+        input {
+            width: 100%;
+        }
+        .form {
+            gap: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="inner">
+        <div id="chats">
+            <h2 style="text-align: center;">💬 Список чатов</h2>
+
+            <div class="chat-list">
+                <div class="chat">
+                    <h4>Название</h4>
+                    <h5 style="color: var(--tg-theme-hint-color)">Крутой чат, сами сижу, всем советую</h5>
+                    <button>Перейти</button>
+                </div>          
+            </div>
+        </div>
+
+        <div id="create" style="display: none; opacity: 0;">
+            <h2 style="text-align: center;">💬 Новый чат</h2>
+
+            <div class="form">
+                <h4>Название чата</h4>
+                <input type="text" id="name">
+                <br><br>
+                <h4>Описание чата</h4>
+                <input type="text" id="description">
+                <br><br>
+                <h4>Ссылка</h4>
+                <input type="url" id="link">
+                <br><br>
+                <button id="create-btn">Создать</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/static/scripts/chats.js"></script>
+</body>
+</html>

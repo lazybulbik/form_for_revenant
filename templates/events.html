@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="/static/new_styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">    
+
+    <style>
+        .event-block {
+            display: flex;
+            flex-direction: column;
+            gap: 5%;
+            margin-top: 5%;
+
+            background-color: var(--tg-theme-secondary-bg-color);
+            border-radius: 20px;
+            padding: 5%;            
+
+            /* background-image: url("https://api.telegram.org/file/bot5694054533:AAGVrj58icZPu0L0_3XEVwa3pP1tLO1TGkU/photos/file_129.jpg"); */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            background-blend-mode: multiply;
+            background-color: rgba(0, 0, 0, 0.7);
+
+            /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); */
+        }
+        .event-block * {
+            color: white;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+        }
+        .event-block a {
+            color: var(--tg-theme-link-color);
+        }
+        .event-title {
+            width: 49%;
+            font-weight: 600;
+            text-wrap: wrap;
+        }
+        .event-date {
+            width: 38%;
+            font-size: 16px;
+            font-weight: 100;
+        }
+        .event-info {
+            margin-top: 5%;
+            margin-bottom: 5%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;        
+        }
+        .event-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="inner">
+        <h2 style="text-align: center;">✨ Ближайшие события</h2>
+        <div style="margin-top: 2%;" class="pulse-preloader" id="preloader">🐱</div>
+        <div class="column" id="events-list" style="opacity: 0;">
+            <!-- <div class="event-block">
+                <div class="event-header">
+                    <h3 class="event-title">✌ Прогулка по городу</h3>
+                    <p class="event-date">📅 Завтра</p>
+                </div>
+                <div class="event-info">
+                    <p>👩‍💻 Создатель: <a href="https://t.me/lazy_bulbik">@lazy_bulbik</a></p>
+                    <p>📍 Адрес: Парк</p>
+                    <p>⏰ 10:30</p>
+                </div>
+                <button>Подробнее</button>
+            </div> -->
+        </div>
+    </div>
+    <script src="/static/scripts/events.js"></script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="/static/new_styles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+
+    <input type="hidden" id='user_id' value="{{ user_id }}">
+
+    <style>
+        .head {
+            /* margin-left: 5%; */
+            text-align: center;
+        }
+        .nav-panel {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+
+            margin-top: 5%;
+        }
+        .tab-btn {
+            color: var(--tg-theme-text-color);
+            width: 45%;
+            border-radius: 10px;
+            background-color: transparent;
+            border: 1px solid var(--theme-button-color);
+
+            padding: 2% 4%;
+            font-size: 16px;
+        }
+
+        .tab-btn.selected {
+            background-color: var(--theme-button-color);
+            pointer-events: none;
+        }
+
+        .achievements-table {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-top: 5%;
+        }
+        .achievement {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            background-color: var(--tg-theme-secondary-bg-color);
+            border-radius: 10px;
+            gap: 10px;
+
+            padding: 2%;
+        }
+        .achievement-img {
+            width: 100px;
+            height: 80px;
+            background-size: cover;
+            border-radius: 10px;
+        }
+
+        .achievement-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: left;
+
+            padding: 2%;
+        }
+
+        .achievement-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .achievement-description {
+            font-size: 15px;
+            color: var(--tg-theme-hint-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="inner">
+        <div class="head">
+            <h1>Ачивки</h1>
+            <h5 style="color: var(--tg-theme-hint-color); font-size: 15px;">Которые вы заслужили</h5>
+        </div>
+        <div class="nav-panel">
+            <button class="tab-btn selected" id="basic-tab">Основные</button>
+            <button class="tab-btn" id="personal-tab">Личные</button>
+        </div>
+        <div class="achievements-table" id="basic">
+            <div class="achievement">
+                <img class="achievement-img" src="https://ist.say7.info/img0009/93/993_013292e_5426_1024.jpg" alt="">
+                <div class="achievement-body">
+                    <span class="achievement-title">Повелитель хлеба</span>
+                    <span class="achievement-description">Пафосно купи хлеб и съешь по дороге домой</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="achievements-table" id="personal" style="display: none;">
+            <div class="achievement">
+                <img class="achievement-img" src="https://avatars.dzeninfra.ru/get-zen_doc/3753737/pub_63dfbd0e5990a43e3f2c55fb_63dfbf483fede37a275275f1/scale_1200" alt="">
+                <div class="achievement-body">
+                    <span class="achievement-title">Великий химик</span>
+                    <span class="achievement-description">Выпил самогон и не ослеп</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.achievement').forEach(element => {
+            element.addEventListener('click', function () {
+                this.classList.toggle('focus');
+            })
+        });
+    </script>
+    
+    <script src="/static/scripts/profile_achievements.js"></script>
+</body>
+</html>

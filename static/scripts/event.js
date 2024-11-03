@@ -2,6 +2,11 @@ let tg = window.Telegram.WebApp;
 
 tg.expand();
 
+tg.BackButton.show();
+tg.BackButton.onClick(() => {
+    window.location.href = '/events';
+})
+
 async function is_admin() {
     data = await fetch('/api/is_admin', {
         method: 'POST',
@@ -205,25 +210,46 @@ function fill_list(data) {
     data['ready_users'].forEach(user => {
         let list = document.getElementById('ready-users')
         let user_text = document.createElement('div')
-        user_text.innerHTML = `✅ ${user}`
+        user_text.innerHTML = `✅ `
         user_text.classList.add('base-text', 'user')
-        user_text.id = user
+        user_text.id = user['name']
+
+        user_link = document.createElement('a')
+        user_link.href = `/profile/${user['id']}`  
+        user_link.innerHTML = `${user['name']}`
+
+        user_text.appendChild(user_link)
+
         list.appendChild(user_text)
     })
     data['maybe_users'].forEach(user => {
         let list = document.getElementById('ready-users')
         let user_text = document.createElement('div')
-        user_text.innerHTML = `☑️ ${user}`
         user_text.classList.add('base-text', 'user')
         user_text.id = user
+        user_text.innerHTML = `☑️ `
+
+        user_link = document.createElement('a')
+        user_link.href = `/profile/${user['id']}`  
+        user_link.innerHTML = `${user['name']}`
+
+        user_text.appendChild(user_link)
+
         list.appendChild(user_text)
     })
     data['no_users'].forEach(user => {
         let list = document.getElementById('no-users')
         let user_text = document.createElement('div')
-        user_text.innerHTML = `❌ ${user}`
         user_text.classList.add('base-text', 'user')
         user_text.id = user
+        user_text.innerHTML = `❌ `
+
+        user_link = document.createElement('a')
+        user_link.href = `/profile/${user['id']}`  
+        user_link.innerHTML = `${user['name']}`
+
+        user_text.appendChild(user_link)
+
         list.appendChild(user_text)
     })
 }
